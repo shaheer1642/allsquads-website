@@ -37,28 +37,17 @@ class Squads extends React.Component {
   }
 
   fetchSquads = () => {
-    this.setState({
-      squadsArr: [],
-      squadsLoading: true
-    }, () => {
-      socket.emit('relicbot/squads/fetch', {}, (res) => {
-        console.log(res)
-        if (res.code == 200) {
-          this.setState({
-            squadsArr: [...this.state.squadsArr, ...res.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)}))],
-            squadsLoading: false
-          })
-        }
-      })
-      socket.emit('squadbot/squads/fetch', {}, (res) => {
-        console.log(res)
-        if (res.code == 200) {
-          this.setState({
-            squadsArr: [...this.state.squadsArr, ...res.data],
-            squadsLoading: false
-          })
-        }
-      })
+    socket.emit('relicbot/squads/fetch', {}, (res1) => {
+      if (res1.code == 200) {
+        socket.emit('squadbot/squads/fetch', {}, (res2) => {
+          if (res2.code == 200) {
+            this.setState({
+              squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data],
+              squadsLoading: false
+            })
+          }
+        })
+      }
     })
   }
 
