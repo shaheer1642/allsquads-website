@@ -22,10 +22,10 @@ export default function Router() {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#651fff',
+      main: Color.orange[900],
     },
     secondary: {
-      main: '#f50057',
+      main: Color.blue[900],
     },
   },
 });
