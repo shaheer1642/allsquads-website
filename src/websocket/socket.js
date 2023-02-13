@@ -40,6 +40,7 @@ async function generateNewToken() {
     socket.disconnect()
     socket.connect()
 }
+
 function getCookie(name) {
     return document.cookie.split('; ').find((row) => row.startsWith(`${name}=`))?.split('=')[1]
 }
@@ -47,5 +48,5 @@ function getCookie(name) {
 export {
     socket,
     socketHasConnected,
-    generateNewToken
+    generateNewToken,
 }

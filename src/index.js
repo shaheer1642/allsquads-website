@@ -6,6 +6,7 @@ import * as Color from '@mui/material/colors';
 import React from "react";
 import MainLayout from "./layouts/MainLayout";
 import MainHome from "./views/MainHome";
+import VerificationScreen from "./views/Authorization/VerificationScreen";
 
 export default function Router() {
   return (
@@ -13,6 +14,9 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainHome />} />
+        </Route>
+        <Route path="/verification" element={<VerificationScreen />}>
+          <Route index element={<VerificationScreen />} />
         </Route>
       </Routes>
     </BrowserRouter>
