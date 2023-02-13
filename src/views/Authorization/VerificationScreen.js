@@ -15,8 +15,6 @@ const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchPar
     state: `${getCookie('login_token')}_${process.env.REACT_APP_SERVER_ADDRESS}`
 }).toString();
 
-console.log(login_url)
-
 class VerificationScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -50,16 +48,16 @@ class VerificationScreen extends React.Component {
           \u200b
           4) Click 'Send' button
           \u200b
-          5) Bot will check the inbox in next couple of seconds and message you about the verification. Thanks!
+          5) Bot will check the inbox in next couple of seconds and verify your account
           \u200b
-          Once finished, click below to go back and login again`.split('\n').map((line,index) => {
+          6) Once finished, click below to login again`.split('\n').map((line,index) => {
             return (
               <Typography key={index} variant="h5" style={{wordWrap: "break-word", width: '100%'}}>
                 {line.replace(/--link.*--link/g,'').trim()} {line.match('--link') ? <a href={(line.split('--link ')[1]).replace(/--link/g,'').trim()}>{(line.split('--link ')[1]).replace(/--link/g,'').trim()}</a> : <></>}
               </Typography>
             )
         })}
-        <Button style={{margin: '20px',}} variant='contained' href='/'>Go back</Button>
+        <Button href={login_url} style={{margin: '20px',}} variant='contained'>Login</Button>
         </Box>
       </div>
     );

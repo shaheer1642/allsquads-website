@@ -15,8 +15,6 @@ const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchPar
     state: `${getCookie('login_token')}_${process.env.REACT_APP_SERVER_ADDRESS}`
 }).toString();
 
-console.log(login_url)
-
 class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
