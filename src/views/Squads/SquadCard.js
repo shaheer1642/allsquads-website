@@ -33,7 +33,7 @@ class SquadCard extends React.Component {
 
   render() {
     return (
-        <Card sx={{ maxWidth: 345 }} style={{borderColor: 'green', borderWidth:3 }}>
+        <Card elevation={3} style={{padding: '10px' }}>
           <CardContent> 
             {/* Squad title */}
             <Typography variant="h5">
@@ -51,7 +51,7 @@ class SquadCard extends React.Component {
             }
           </CardContent>
           <CardActions style={{justifyContent: 'center'}}>
-            <Button size="small">Join Squad</Button>
+            <Button size="small">✅ Join Squad</Button>
           </CardActions>
         </Card>
     );
