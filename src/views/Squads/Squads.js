@@ -29,21 +29,48 @@ class Squads extends React.Component {
   componentDidMount() {
     console.log('[Squads] mounted')
     this.fetchSquads()
-    socket.addEventListener('squadbot/squadCreate', this.fetchSquads)
-    socket.addEventListener('squadbot/squadUpdate', this.fetchSquads)
-    socket.addEventListener('squadCreate', this.fetchSquads)
-    socket.addEventListener('squadUpdate', this.fetchSquads)
+    socket.addEventListener('squadbot/squadCreate', this.squadsListenerInsert)
+    socket.addEventListener('squadbot/squadUpdate', this.squadsListenerUpdate)
+    socket.addEventListener('squadCreate', this.squadsListenerInsert)
+    socket.addEventListener('squadUpdate', this.squadsListenerUpdate)
   }
 
   componentWillUnmount() {
-    socket.removeEventListener('squadbot/squadCreate', this.fetchSquads)
-    socket.removeEventListener('squadbot/squadUpdate', this.fetchSquads)
-    socket.removeEventListener('squadCreate', this.fetchSquads)
-    socket.removeEventListener('squadUpdate', this.fetchSquads)
+    socket.removeEventListener('squadbot/squadCreate', this.squadsListenerInsert)
+    socket.removeEventListener('squadbot/squadUpdate', this.squadsListenerUpdate)
+    socket.removeEventListener('squadCreate', this.squadsListenerInsert)
+    socket.removeEventListener('squadUpdate', this.squadsListenerUpdate)
   }
 
   componentDidUpdate() {
     console.log('[Squads] updated',this.state)
+  }
+
+  squadsListenerInsert = (data) => {
+    const newSquad = data
+    if (this.state.squadsArr.some(squad => squad.squad_id == data.squad_id)) return
+    return this.setState({
+      squadsArr: [newSquad.bot_type == 'relicbot' ? {...newSquad, squad_string: relicBotSquadToString(newSquad,true)} : newSquad, ...this.state.squadsArr]
+    })
+  }
+  squadsListenerUpdate = (data) => {
+    const updatedSquad = data[0]
+    if (updatedSquad.status != 'active') return this.squadsListenerDelete(updatedSquad)
+    return this.setState(state => {
+        const squadsArr = state.squadsArr.map((squad, index) => {
+          if (squad.squad_id === updatedSquad.squad_id) return updatedSquad.bot_type == 'relicbot' ? {...updatedSquad, squad_string: relicBotSquadToString(updatedSquad,true)} : updatedSquad;
+          else return squad
+        });
+        return {
+          squadsArr,
+        }
+    });
+  }
+  squadsListenerDelete = (data) => {
+    const deletedSquad = data
+    return this.setState({
+      squadsArr: this.state.squadsArr.filter((squad) => squad.squad_id != deletedSquad.squad_id)
+    })
   }
 
   fetchSquads = () => {

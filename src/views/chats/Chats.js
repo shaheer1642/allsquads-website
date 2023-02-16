@@ -7,7 +7,8 @@ import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { getCookie } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
-import { user_logged } from '../../objects/user_login';
+import { user_logged, authorizationCompleted } from '../../objects/user_login';
+
 
 class Chats extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class Chats extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchChats()
+    authorizationCompleted().then(() => this.fetchChats()).catch(console.error)
+    
     eventHandler.addListener('openChat', this.openChat)
   }
 

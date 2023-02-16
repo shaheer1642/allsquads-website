@@ -45,9 +45,7 @@ class SquadCard extends React.Component {
         discord_id: user_logged.discord_id,
         channel_id: 'web-111',
       }, (res) => {
-        if (res.code == 200) {
-          this.setState({joiningLeavingSquadLoading: false})
-        }
+        this.setState({joiningLeavingSquadLoading: false})
       })
     })
   }
