@@ -6,6 +6,7 @@ import {socket,socketHasConnected} from '../../websocket/socket'
 import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { getCookie } from '../../functions';
+import eventHandler from '../../event_handler/eventHandler';
 
 const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchParams({
     client_id: process.env.REACT_APP_ENVIRONMENT == 'dev' ? '878017655028723803' : '832682369831141417',
@@ -19,21 +20,28 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false
     }
   }
 
   componentDidMount() {
+    eventHandler.addListener('requestLogin', this.openLogin)
   }
 
   componentWillUnmount() {
+    eventHandler.removeListener('requestLogin', this.openLogin)
   }
 
   componentDidUpdate() {
   }
 
+  openLogin = () => {
+    this.setState({open: true})
+  }
+
   render() {
     return (
-      <Dialog onClose={this.props.onClose} open={this.props.open} 
+      <Dialog onClose={this.props.onClose} open={this.props.open || this.state.open} 
       sx={{ '& .MuiDialog-paper': { padding: '20px' } }}
       >
         <DialogTitle>Login</DialogTitle>
