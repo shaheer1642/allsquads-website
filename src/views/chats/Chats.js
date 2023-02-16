@@ -37,6 +37,7 @@ class Chats extends React.Component {
   }
 
   fetchChats = () => {
+    if (!user_logged) return
     socket.emit('allsquads/user/chats/fetch', {discord_id: user_logged.discord_id},(res) => {
       if (res.code == 200) {
         console.log('fetchchats res',res)
@@ -56,16 +57,17 @@ class Chats extends React.Component {
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         PaperProps={{
-          sx: { width: "25vw" },
+          sx: { width: "30vw" },
         }}
       >
-        <Grid container>
+        <Grid container padding={"10px"}>
           <Grid item xs={12} style={{display: 'flex', justifyContent: 'center'}}>
             <Typography variant='h5'>Squad Chats</Typography>
           </Grid>
           {Object.values(this.state.chatsObj).map(squad => squad.map(chat => 
             (<Grid item xs={12}>
-              {`[${chat.squad_string || (chat.tier + chat.main_relics.join(' '))}] ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
+              <Typography sx={{wordWrap: 'break-word'}}>{`[${chat.squad_string || (chat.tier + chat.main_relics.join(' '))}] ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}</Typography>
+              
             </Grid>)
           ))
           }
