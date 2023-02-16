@@ -1,11 +1,15 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { Link, Outlet } from "react-router-dom";
-import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress} from '@mui/material';
+import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab} from '@mui/material';
+import {Chat} from '@mui/icons-material'
 import MenuIcon from '@mui/icons-material/Menu';
 import {socket,socketHasConnected} from '../websocket/socket'
 import LoginScreen from '../views/Authorization/LoginScreen';
 import { user_logged, authorizationCompleted } from '../objects/user_login';
+import Chats from '../views/chats/Chats';
+import eventHandler from '../event_handler/eventHandler';
+import * as Colors from '@mui/material/colors';
 
 class MainLayout extends React.Component {
   constructor(props) {
@@ -53,6 +57,10 @@ class MainLayout extends React.Component {
         </AppBar>
         < Outlet />
         < LoginScreen onClose={() => this.setState({loginOpen: false})} open={this.state.loginOpen}/>
+        < Chats />
+        <Fab style={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: Colors.orange[900]}} onClick={() => eventHandler.emit('openChat', {})}>
+          <Chat />
+        </Fab>
       </Box>
     );
   }

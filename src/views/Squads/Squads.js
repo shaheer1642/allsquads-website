@@ -77,7 +77,7 @@ class Squads extends React.Component {
 
   render() {
     return (
-      <Grid container spacing={1} style={{margin: '10px'}}>
+      <Grid container spacing={1} style={{padding: '10px'}}>
         <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
         </Grid>
