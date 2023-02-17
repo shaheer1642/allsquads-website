@@ -27,8 +27,13 @@ class Squads extends React.Component {
   }
 
   componentDidMount() {
-    console.log('[Squads] mounted')
+    console.log('[Squads.Squads] mounted')
     this.fetchSquads()
+    // refresh squads every 2m
+    setInterval(() => {
+      this.fetchSquads()
+    }, 120000);
+
     socket.addEventListener('squadbot/squadCreate', this.squadsListenerInsert)
     socket.addEventListener('squadbot/squadUpdate', this.squadsListenerUpdate)
     socket.addEventListener('squadCreate', this.squadsListenerInsert)
@@ -36,6 +41,7 @@ class Squads extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('[Squads.Squads] unmounted')
     socket.removeEventListener('squadbot/squadCreate', this.squadsListenerInsert)
     socket.removeEventListener('squadbot/squadUpdate', this.squadsListenerUpdate)
     socket.removeEventListener('squadCreate', this.squadsListenerInsert)
@@ -48,7 +54,7 @@ class Squads extends React.Component {
 
   squadsListenerInsert = (data) => {
     const newSquad = data
-    if (this.state.squadsArr.some(squad => squad.squad_id == data.squad_id)) return
+    if (this.state.squadsArr.some(squad => squad.squad_id == newSquad.squad_id)) return
     return this.setState({
       squadsArr: [newSquad.bot_type == 'relicbot' ? {...newSquad, squad_string: relicBotSquadToString(newSquad,true)} : newSquad, ...this.state.squadsArr]
     })
@@ -77,29 +83,33 @@ class Squads extends React.Component {
     this.setState({
       squadsRefreshing: true
     }, () => {
-      clearTimeout(this.fetchSquad.timeout)
-      const setTimeoutValue = new Date().getTime() - this.fetchSquad.timeSinceLastCall > 2000 ? 0 : 1000
-      console.log('setTimeoutValue',setTimeoutValue)
-      this.fetchSquad.timeout = setTimeout(() => {
-        console.log('[Squads.fetchSquads] called')
-        this.fetchSquad.timeSinceLastCall = new Date().getTime()
-        socket.emit('relicbot/squads/fetch', {}, (res1) => {
-          console.log('[Squads.fetchSquads] response1',res1.code)
-          if (res1.code == 200) {
-            socket.emit('squadbot/squads/fetch', {}, (res2) => {
-              console.log('[Squads.fetchSquads] response2',res2.code)
-              if (res2.code == 200) {
-                this.setState({
-                  squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true), bot_type: 'relicbot'})), ...res2.data.map(squad => ({...squad, bot_type: 'squadbot'}))],
-                  squadsLoading: false,
-                  squadsRefreshing: false
-                })
-              }
-            })
-          }
-        })
-      }, setTimeoutValue);
+      socket.emit('relicbot/squads/fetch', {}, (res1) => {
+        // console.log('[Squads.fetchSquads] response1',res1.code)
+        if (res1.code == 200) {
+          socket.emit('squadbot/squads/fetch', {}, (res2) => {
+            // console.log('[Squads.fetchSquads] response2',res2.code)
+            if (res2.code == 200) {
+              this.setState({
+                squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data],
+                squadsLoading: false,
+                squadsRefreshing: false
+              })
+            }
+          })
+        }
+      })
     })
+    // this.setState({
+    //   squadsRefreshing: true
+    // }, () => {
+    //   clearTimeout(this.fetchSquad.timeout)
+    //   const setTimeoutValue = new Date().getTime() - this.fetchSquad.timeSinceLastCall > 2000 ? 0 : 1000
+    //   console.log('setTimeoutValue',setTimeoutValue)
+    //   this.fetchSquad.timeout = setTimeout(() => {
+    //     console.log('[Squads.fetchSquads] called')
+    //     this.fetchSquad.timeSinceLastCall = new Date().getTime()
+    //   }, setTimeoutValue);
+    // })
   }
 
   render() {

@@ -13,6 +13,10 @@ function dynamicSort(property) {
     }
 }
 
+function sortCaseInsensitive(arr,descending) {
+    return arr.sort((a,b) => a.replace(/"/g,'').toLowerCase() < b.replace(/"/g,'').toLowerCase() ? descending ? 1 : -1 : descending ? -1 : 1)
+}
+
 function dynamicSortDesc(property) {
     var sortOrder = 1;
     if(property[0] === "-") {
@@ -135,4 +139,4 @@ function getCookie(name) {
     return document.cookie.split('; ').find((row) => row.startsWith(`${name}=`))?.split('=')[1]
 }
 
-module.exports = {dynamicSort,dynamicSortDesc,msToTime,msToFullTime,getRandomColor,embedScore,convertUpper,getTodayStartMs,getWeekStartMs,getMonthStartMs,calcArrAvg,relicBotSquadToString,getCookie};
+module.exports = {dynamicSort,dynamicSortDesc,msToTime,msToFullTime,getRandomColor,embedScore,convertUpper,getTodayStartMs,getWeekStartMs,getMonthStartMs,calcArrAvg,relicBotSquadToString,getCookie,sortCaseInsensitive};

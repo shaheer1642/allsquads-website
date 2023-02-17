@@ -21,7 +21,7 @@ class MainHome extends React.Component {
 
   render() {
     return (
-      <Grid contianer>
+      <Grid container>
         <Squads />
       </Grid>
     );
