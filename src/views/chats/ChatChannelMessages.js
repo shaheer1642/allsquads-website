@@ -10,6 +10,8 @@ import { getCookie, } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
 import { user_logged, authorizationCompleted } from '../../objects/user_login';
 import * as uuid from 'uuid';
+import * as Colors from '@mui/material/colors';
+
 
 function enquote(username) {
   return username.match(' ') ? `"${username}"`:username
@@ -105,16 +107,16 @@ class ChatChannelMessages extends React.Component {
           {
             this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress /></Grid> :
             [
-              <Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
-              <Grid item xs={12} style={{wordWrap: 'break-word'}}>
-                {this.props.squad.squad_host ? <pre>{squad_host}</pre> : <Button variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
+              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
+              <Grid item xs={12}>
+                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.blue[700]}}>{squad_host}</pre> : <Button variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
               </Grid>,
               this.state.chatsArr.map((chat,index) => 
                 (<Grid item xs={12} key={index} style={{wordWrap: 'break-word'}}>
                   {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
                 </Grid>)
               ),
-              <Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{squad_status_message}</pre></Grid>
+              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid>
             ]
             
           }
