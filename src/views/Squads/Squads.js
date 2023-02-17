@@ -119,12 +119,12 @@ class Squads extends React.Component {
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
         </Grid>
         <Grid item xs={12}></Grid>
-        <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
+        {/* <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
           <Typography sx={{wordWrap: 'break-word'}}>
           Caution! The website is for testing only. Please do not open any squads from here as there is no chat system at the moment
           </Typography>
         </Grid>
-        <Grid item xs={12}></Grid>
+        <Grid item xs={12}></Grid> */}
         <Grid item xs={"auto"}>
           <Button 
             onClick={() => {
