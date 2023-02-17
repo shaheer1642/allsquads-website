@@ -31,45 +31,59 @@ class Chats extends React.Component {
     authorizationCompleted().then(() => this.fetchFilledSquads()).catch(console.error)
     
     eventHandler.addListener('openChat', this.openChat)
-
     socket.addEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.addEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
-    socket.addEventListener('relicbot/squads/closed', this.fetchFilledSquads)
-    socket.addEventListener('squadbot/squads/closed', this.fetchFilledSquads)
-    socket.addEventListener('relicbot/squads/disbanded', this.fetchFilledSquads)
-    socket.addEventListener('squadbot/squads/disbanded', this.fetchFilledSquads)
+    socket.addEventListener('squadbot/squadUpdate', this.squadUpdateListener)
+    socket.addEventListener('squadUpdate', this.squadUpdateListener)
   }
 
   componentWillUnmount() {
     eventHandler.removeListener('openChat', this.openChat)
     socket.removeEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.removeEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
-    socket.removeEventListener('relicbot/squads/closed', this.fetchFilledSquads)
-    socket.removeEventListener('squadbot/squads/closed', this.fetchFilledSquads)
-    socket.removeEventListener('relicbot/squads/disbanded', this.fetchFilledSquads)
-    socket.removeEventListener('squadbot/squads/disbanded', this.fetchFilledSquads)
+    socket.removeEventListener('squadbot/squadUpdate', this.squadUpdateListener)
+    socket.removeEventListener('squadUpdate', this.squadUpdateListener)
   }
 
   componentDidUpdate() {
   }
 
   openChat = (data) => {
-    this.setState({open: true, viewChat: data.squad || null})
+    this.setState({open: true, viewChat: data?.squad?.squad_id})
   }
 
   newSquadOpenedListener = (data) => {
-    this.openChat({squad: data})
-    this.fetchFilledSquads()
+    this.fetchFilledSquads(() => {
+      this.openChat({squad: data})
+    })
   }
 
-  fetchFilledSquads = () => {
+  squadUpdateListener = (data) => {
+    console.log('[Chats.squadUpdateListener] called')
+    const updatedSquad = data[0]
+    if (this.state.filledSquads.some(squad => squad.squad_id == updatedSquad.squad_id)) {
+      return this.setState(state => {
+          const filledSquads = state.filledSquads.map((squad, index) => {
+            if (squad.squad_id === updatedSquad.squad_id) return updatedSquad.bot_type == 'relicbot' ? {...updatedSquad, squad_string: relicBotSquadToString(updatedSquad,true)} : updatedSquad;
+            else return squad
+          });
+          return {
+            filledSquads,
+          }
+      });
+    }
+  }
+
+  fetchFilledSquads = (callback) => {
     if (!user_logged) return
     socket.emit('allsquads/user/filledSquads/fetch', {discord_id: user_logged.discord_id},(res) => {
       if (res.code == 200) {
-        console.log('fetchFilledSquads res',res)
+        const filledSquads = res.data.map(squad => squad.bot_type == 'relicbot' ? ({...squad, squad_string: relicBotSquadToString(squad,true)}) : squad)
         this.setState({
-          filledSquads: [...res.data.map(squad => squad.bot_type == 'relicbot' ? ({...squad, squad_string: relicBotSquadToString(squad,true)}) : squad)],
+          filledSquads: [...filledSquads],
           loadingSquads: false
+        }, () => {
+          if (callback) callback()
         })
       }
     })
@@ -83,7 +97,7 @@ class Chats extends React.Component {
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         PaperProps={{
-          sx: { width: "30vw" },
+          sx: { maxWidth: "30%" },
         }}
       >
         <Grid container padding={"10px"} rowSpacing={'10px'}>
@@ -94,7 +108,7 @@ class Chats extends React.Component {
             </Grid> : <></>
           }
           <Grid item xs={this.state.viewChat == null ? 12 : 'auto'} width="100%" style={{display: 'flex', justifyContent: 'center'}}>
-            <Typography variant='h5'>{this.state.viewChat == null ? 'Squad Chats' : convertUpper(this.state.viewChat.squad_string)}</Typography>
+            <Typography variant='h5'>{this.state.viewChat == null ? 'Squad Chats' : convertUpper(this.state.filledSquads.filter(squad => squad.squad_id == this.state.viewChat)?.[0]?.squad_string)}</Typography>
           </Grid>
           <Grid item xs={12}></Grid>
           {this.state.loadingSquads ? <CircularProgress />
@@ -102,11 +116,11 @@ class Chats extends React.Component {
             this.state.viewChat == null ?
               this.state.filledSquads.map(squad => 
                 (<Grid item xs={12}>
-                  <ChatChannel squad={squad} onClick={() => this.setState({viewChat: squad})}/>
+                  <ChatChannel squad={squad} onClick={() => this.setState({viewChat: squad.squad_id})}/>
                 </Grid>)
               )
             :
-              <ChatChannelMessages squad={this.state.viewChat} />
+              <ChatChannelMessages squad={this.state.filledSquads.filter(squad => squad.squad_id == this.state.viewChat)?.[0]} />
           }
         </Grid>
       </Drawer>

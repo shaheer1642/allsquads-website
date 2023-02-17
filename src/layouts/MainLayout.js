@@ -59,10 +59,10 @@ class MainLayout extends React.Component {
         < LoginScreen onClose={() => this.setState({loginOpen: false})} open={this.state.loginOpen}/>
         < Chats />
         <Fab style={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: Colors.orange[900]}} 
-        onClick={() => {
-          if (!user_logged) return eventHandler.emit('requestLogin', {})
-          eventHandler.emit('openChat', {})
-        }}>
+          onClick={() => {
+            if (!user_logged) return eventHandler.emit('requestLogin', {})
+            eventHandler.emit('openChat', {})
+          }}>
           <Chat />
         </Fab>
       </Box>

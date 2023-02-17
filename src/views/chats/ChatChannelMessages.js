@@ -80,16 +80,42 @@ class ChatChannelMessages extends React.Component {
     })
   }
 
+  onBecomeHostClick = () => {
+    socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, discord_id: user_logged.discord_id},(res) => {
+      if (res.code != 200) {
+        console.log('[ChatChannelMessages.onBecomeHostClick] error',res)
+      }
+    })
+  }
+
   render() {
+    var hosts = this.props.squad.host_recommendation;
+    var host_selection;
+    if (hosts?.[0].considered_ping == null) {
+      host_selection = `Please decide a host and invite each other in the game`
+    } else {
+      host_selection = `Recommended Host: ${hosts[0].ign} with avg squad ping of ${hosts[0].avg_squad_ping}`
+    }
+    const invite_list = `/invite ${sortCaseInsensitive(this.props.squad.members.map(id => enquote(as_users_list[id]?.ingame_name))).join('\n/invite ')}`
+    const squad_status_message = this.props.squad.status != 'opened' ? `This squad has been ${this.props.squad.status}` : ''
+    const squad_host = this.props.squad.squad_host ? `${as_users_list[this.props.squad.squad_host]?.ingame_name} is hosting this squad\n- Please invite everyone, and make sure the squad is set to "invite-only"\n- Only the host should initiate the mission\n- If host migrates, same rules apply` : ''
+    console.log('squad host',squad_host,this.props.squad.squad_host)
     return (
         <Grid container rowSpacing={"10px"} style={{display: 'flex', alignItems: 'end', }}>
           {
             this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress /></Grid> :
-            [<Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{`Squad Filled\n\n/invite ${sortCaseInsensitive(this.props.squad.members.map(id => enquote(as_users_list[id]?.ingame_name))).join('\n/invite ')}\n\nStart chatting with your teammates below`}</pre></Grid>].concat(this.state.chatsArr.map((chat,index) => 
-            (<Grid item xs={12} key={index} style={{wordWrap: 'break-word'}}>
-              {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
-            </Grid>)
-            )).concat(<Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{this.props.squad.status != 'opened' ? `This squad has been ${this.props.squad.status}` : ''}</pre></Grid>)
+            [
+              <Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
+              <Grid item xs={12} style={{wordWrap: 'break-word'}}>
+                {this.props.squad.squad_host ? <pre>{squad_host}</pre> : <Button variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
+              </Grid>,
+              this.state.chatsArr.map((chat,index) => 
+                (<Grid item xs={12} key={index} style={{wordWrap: 'break-word'}}>
+                  {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
+                </Grid>)
+              ),
+              <Grid item xs={12} style={{wordWrap: 'break-word'}}><pre>{squad_status_message}</pre></Grid>
+            ]
             
           }
           <Grid item xs={12}></Grid>

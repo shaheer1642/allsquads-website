@@ -26,10 +26,6 @@ class ChatChannel extends React.Component {
   componentDidUpdate() {
   }
 
-  openChat = () => {
-    this.setState({open: true})
-  }
-
   render() {
     return (
       <Card elevation={3} onClick={this.props.onClick}>
