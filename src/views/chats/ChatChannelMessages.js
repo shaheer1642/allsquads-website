@@ -108,7 +108,7 @@ class ChatChannelMessages extends React.Component {
     return (
         <Grid container rowSpacing={"10px"} style={{display: 'flex', alignItems: 'end', }}>
           {
-            this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress /></Grid> :
+            this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress color="tertiary"/></Grid> :
             [
               <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
               <Grid item xs={12} key='squad-host'>
