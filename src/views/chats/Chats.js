@@ -53,9 +53,11 @@ class Chats extends React.Component {
   }
 
   newSquadOpenedListener = (data) => {
-    this.fetchFilledSquads(() => {
-      this.openChat({squad: data})
-    })
+    if (data.members.includes(user_logged?.discord_id)) {
+      this.fetchFilledSquads(() => {
+        this.openChat({squad: data})
+      })
+    }
   }
 
   squadUpdateListener = (data) => {
