@@ -109,7 +109,6 @@ class Squads extends React.Component {
         if (res1.code == 200) {
           socket.emit('squadbot/squads/fetch', {}, (res2) => {
             // console.log('[Squads.fetchSquads] response2',res2.code)
-          console.log('fetchedsquads',JSON.stringify([...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data]) )
             if (res2.code == 200) {
               this.setState({
                 squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data].sort(dynamicSort('squad_string')),
