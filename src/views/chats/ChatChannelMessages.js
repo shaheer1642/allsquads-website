@@ -13,7 +13,7 @@ import * as uuid from 'uuid';
 import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
 import ApiButton from '../../components/ApiButton';
-
+import playSound from '../../sound_player';
 
 function enquote(username) {
   return username.match(' ') ? `"${username}"`:username
@@ -50,6 +50,7 @@ class ChatChannelMessages extends React.Component {
 
   squadMessageListenerInsert = (data) => {
     if (data.squad_id != this.props.squad.squad_id) return
+    playSound.newMessage()
     return this.setState({
       chatsArr: [...this.state.chatsArr, data]
     })

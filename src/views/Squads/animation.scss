@@ -1,0 +1,52 @@
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+@keyframes rotate {
+	100% {
+		transform: rotate(1turn);
+	}
+}
+
+.conic {
+	position: relative;
+	z-index: 0;
+	overflow: hidden;
+	
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: -2;
+		left: -50%;
+		top: -50%;
+		width: 200%;
+		height: 200%;
+		background-color: #2e22db;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		background-image: conic-gradient(transparent, rgb(236, 87, 29), transparent 30%);
+		animation: rotate 4s linear infinite;
+	}
+	
+	&::after {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		left: 6px;
+		top: 6px;
+		width: calc(100% - 12px);
+		height: calc(100% - 12px);
+		background: #0a1c23;
+		border-radius: 5px;
+	}
+}
+
+@keyframes opacityChange {
+	50% {
+		opacity:.5;
+	}
+	100% {
+		opacity: 1;
+	}
+}

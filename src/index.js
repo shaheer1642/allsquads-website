@@ -8,6 +8,7 @@ import MainLayout from "./layouts/MainLayout";
 import MainHome from "./views/MainHome";
 import VerificationScreen from "./views/Authorization/VerificationScreen";
 import theme from "./theme";
+import Settings from "./views/settings/Settings";
 
 export default function Router() {
   return (
@@ -15,6 +16,7 @@ export default function Router() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainHome />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="/verification" element={<VerificationScreen />}>
           <Route index element={<VerificationScreen />} />

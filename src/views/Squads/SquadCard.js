@@ -40,7 +40,7 @@ class SquadCard extends React.Component {
 
   render() {
     return (
-        <Card elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw' }}>
+        <Card elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.tertiary.main}` : '' }}>
           <CardContent> 
             {/* Squad title */}
             <Typography variant="h5">

@@ -3,13 +3,15 @@ import React from 'react';
 import { Link, Outlet } from "react-router-dom";
 import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab} from '@mui/material';
 import {Chat} from '@mui/icons-material'
-import MenuIcon from '@mui/icons-material/Menu';
+import {Menu, Settings} from '@mui/icons-material';
 import {socket,socketHasConnected} from '../websocket/socket'
 import LoginScreen from '../views/Authorization/LoginScreen';
 import { user_logged, authorizationCompleted } from '../objects/user_login';
 import Chats from '../views/chats/Chats';
 import eventHandler from '../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
+import { withRouter } from '../withRouter';
+import CookieConsent from '../views/CookieConsent/CookieConsent';
 
 class MainLayout extends React.Component {
   constructor(props) {
@@ -41,7 +43,7 @@ class MainLayout extends React.Component {
               aria-label="menu"
               sx={{ mr: 2 }}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Warframe Squads
@@ -54,6 +56,7 @@ class MainLayout extends React.Component {
             :
             <Button color="inherit" onClick={() => this.setState({loginOpen: true})}>Login</Button>
             }
+            <Button color="inherit" onClick={() => this.props.navigate('settings')}><Settings /></Button>
           </Toolbar>
         </AppBar>
         < Outlet />
@@ -66,9 +69,13 @@ class MainLayout extends React.Component {
           }}>
           <Chat />
         </Fab>
+        {/* <div style={{marginLeft: '10px', alignSelf: 'end'}}>
+          Sound Effects from <a href="https://pixabay.com/">Pixabay</a>
+        </div> */}
+        <CookieConsent />
       </Box>
     );
   }
 }
 
-export default MainLayout;
+export default withRouter(MainLayout);
