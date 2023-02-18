@@ -117,8 +117,8 @@ class Chats extends React.Component {
           {this.state.loadingSquads ? <CircularProgress />
           :
             this.state.viewChat == null ?
-              this.state.filledSquads.map(squad => 
-                (<Grid item xs={12}>
+              this.state.filledSquads.map((squad,index) => 
+                (<Grid item xs={12} key={index}>
                   <ChatChannel squad={squad} onClick={() => this.setState({viewChat: squad.squad_id})}/>
                 </Grid>)
               )

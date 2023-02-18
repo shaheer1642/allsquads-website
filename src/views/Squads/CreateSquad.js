@@ -8,6 +8,7 @@ import { relicBotSquadToString } from '../../functions';
 import SquadCard from './SquadCard';
 import { user_logged } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
+import theme from '../../theme';
 
 class CreateSquad extends React.Component {
   constructor(props) {
@@ -22,9 +23,11 @@ class CreateSquad extends React.Component {
   }
 
   componentDidMount() {
+    console.log('[CreateSquad] mounted')
   }
 
   componentWillUnmount() {
+    console.log('[CreateSquad] unmounted')
   }
 
   componentDidUpdate() {
@@ -71,7 +74,7 @@ class CreateSquad extends React.Component {
 
   render() {
     return (
-        <Dialog onClose={this.props.onClose} open={this.props.open} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+        <Dialog onClose={this.props.onClose} open={this.props.open} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: theme.palette.primary.main } }}>
             <DialogTitle>
                 Create Squad
             </DialogTitle>
@@ -80,10 +83,10 @@ class CreateSquad extends React.Component {
                 <DialogContentText>
                     Type below name of the new squad(s) seperated by new line
                 </DialogContentText>
-                <TextField fullWidth style={{marginTop: '20px'}} placeholder={`aya farm\nlith v2`} multiline minRows={3} maxRows={5} label="Squad Name" value={this.state.squadName} onChange={(e) => this.setState({squadName: e.target.value})}/>
+                <TextField color='tertiary' fullWidth style={{marginTop: '20px'}} placeholder={`aya farm\nlith v2`} multiline minRows={3} maxRows={5} label="Squad Name" value={this.state.squadName} onChange={(e) => this.setState({squadName: e.target.value})}/>
             </DialogContent>
             <DialogActions style={{justifyContent: 'start', marginLeft: '15px'}}>
-                <Button variant='contained' onClick={() => this.createNewSquad()}>{this.state.loading ? <CircularProgress style={{color: 'white'}} size={"20px"}/> : 'Create'}</Button>
+                <Button color='tertiary' variant='contained' onClick={() => this.createNewSquad()}>{this.state.loading ? <CircularProgress style={{color: 'white'}} size={"20px"}/> : 'Create'}</Button>
             </DialogActions>
         </Dialog>
     );

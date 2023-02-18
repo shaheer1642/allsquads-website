@@ -11,14 +11,13 @@ import { user_logged } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
+import ApiButton from '../../components/ApiButton';
 
 class SquadCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         usersListLoading: true,
-
-        joiningLeavingSquadLoading: false
     }
   }
 
@@ -32,24 +31,12 @@ class SquadCard extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('[SquadCard] unmounted')
   }
 
   componentDidUpdate() {
-    console.log('[SquadCard] updated',this.state)
   }
 
-  joinLeaveSquad = () => {
-    if (!user_logged) return eventHandler.emit('requestLogin', {})
-    this.setState({joiningLeavingSquadLoading: true}, () => {
-      socket.emit(`${this.props.squad.bot_type}/squads/addmember`, {
-        squad_id: this.props.squad.squad_id,
-        discord_id: user_logged.discord_id,
-        channel_id: 'web-111',
-      }, (res) => {
-        this.setState({joiningLeavingSquadLoading: false})
-      })
-    })
-  }
 
   render() {
     return (
@@ -71,15 +58,21 @@ class SquadCard extends React.Component {
             }
           </CardContent>
           <CardActions style={{justifyContent: 'center'}}>
-            <Button 
-            disabled={this.state.joiningLeavingSquadLoading || this.props.disableActions}
-            onClick={() => this.joinLeaveSquad()} 
-            size="small" variant="outlined" 
-            color={this.props.squad.members.includes(user_logged?.discord_id) ? 'warning' : 'success'}
-            startIcon={this.state.joiningLeavingSquadLoading? null : this.props.squad.members.includes(user_logged?.discord_id) ? <CancelOutlined /> : <DoneOutlined />}>
-              {this.state.joiningLeavingSquadLoading ? <CircularProgress size='20px'/> 
-              : this.props.squad.members.includes(user_logged?.discord_id) ? 'Leave Squad' : 'Join Squad'}
-            </Button>
+            <ApiButton 
+              onClick={(e,callback) => {
+                socket.emit(`${this.props.squad.bot_type}/squads/addmember`,{
+                  squad_id: this.props.squad.squad_id,
+                  discord_id: user_logged.discord_id,
+                  channel_id: 'web-111',
+                }, (res) => {
+                    if (callback) callback(res)
+                })
+              }}
+              variant="outlined" 
+              color={this.props.squad.members.includes(user_logged?.discord_id) ? 'warning' : 'success'}
+              startIcon={this.props.squad.members.includes(user_logged?.discord_id) ? <CancelOutlined /> : <DoneOutlined />}
+              label={this.props.squad.members.includes(user_logged?.discord_id) ? 'Leave Squad' : 'Join Squad'}
+            />
           </CardActions>
         </Card>
     );

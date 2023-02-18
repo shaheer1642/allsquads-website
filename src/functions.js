@@ -105,6 +105,7 @@ function embedScore(text) {
 }
 
 function convertUpper(str) {
+    if (!str) return ''
     return str.replace(/_/g, " ").replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
 }
 
@@ -132,7 +133,7 @@ function calcArrAvg(arr) {
 }
 
 function relicBotSquadToString(squad,include_sp_rj,exclude_cycle_count) {
-  return `${convertUpper(squad.tier)} ${squad.main_relics.join(' ').toUpperCase()} ${squad.squad_type} ${squad.main_refinements.join(' ')} ${squad.off_relics.length > 0 ? 'with':''} ${squad.off_relics.join(' ').toUpperCase()} ${squad.off_refinements.join(' ')} ${include_sp_rj ? (squad.is_steelpath ? 'Steelpath':squad.is_railjack ? 'Railjack':''):''} ${exclude_cycle_count ? '' : squad.cycle_count == '' ? '':`(${squad.cycle_count} runs)`}`.replace(/\s+/g, ' ').trim()
+  return `${convertUpper(squad.tier)} ${squad.main_relics.join(' ').toUpperCase()} ${squad.squad_type} ${squad.main_refinements.join(' ')} ${squad.off_relics.length > 0 ? 'with':''} ${squad.off_relics.join(' ').toUpperCase()} ${squad.off_refinements.join(' ')} ${include_sp_rj ? (squad.is_steelpath ? 'Steelpath':squad.is_railjack ? 'Railjack':''):''} ${exclude_cycle_count ? '' : squad.cycle_count == '' ? '':`(${squad.cycle_count} runs)`}`.replace(/\s+/g, ' ').trim().toLowerCase()
 }
 
 function getCookie(name) {

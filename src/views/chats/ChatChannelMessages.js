@@ -12,6 +12,7 @@ import { user_logged, authorizationCompleted } from '../../objects/user_login';
 import * as uuid from 'uuid';
 import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
+import ApiButton from '../../components/ApiButton';
 
 
 function enquote(username) {
@@ -44,7 +45,7 @@ class ChatChannelMessages extends React.Component {
     socket.removeEventListener('squadMessageCreate', this.squadMessageListenerInsert)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
   }
 
   squadMessageListenerInsert = (data) => {
@@ -83,11 +84,12 @@ class ChatChannelMessages extends React.Component {
     })
   }
 
-  onBecomeHostClick = () => {
+  onBecomeHostClick = (e, callback) => {
     socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, discord_id: user_logged.discord_id},(res) => {
       if (res.code != 200) {
         console.log('[ChatChannelMessages.onBecomeHostClick] error',res)
       }
+      if (callback) callback()
     })
   }
 
@@ -108,16 +110,18 @@ class ChatChannelMessages extends React.Component {
           {
             this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress /></Grid> :
             [
-              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
-              <Grid item xs={12}>
-                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : <Button color='secondary' variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
+              <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
+              <Grid item xs={12} key='squad-host'>
+                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : 
+                  <ApiButton color='secondary' variant='outlined' onClick={this.onBecomeHostClick} label="Become Host"/>
+                }
               </Grid>,
               this.state.chatsArr.map((chat,index) => 
-                (<Grid item xs={12} key={index} style={{wordWrap: 'break-word'}}>
+                (<Grid item xs={12} key={`squad-message-${index}`} style={{wordWrap: 'break-word'}}>
                   {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
                 </Grid>)
               ),
-              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid>
+              <Grid item xs={12} key='squad-status'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid>
             ]
             
           }

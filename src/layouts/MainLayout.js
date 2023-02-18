@@ -21,11 +21,12 @@ class MainLayout extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mainlayout mounted')
+    console.log('[MainLayout] mounted')
     authorizationCompleted().then(() => this.setState({loginLoading: false})).catch(console.error)
   }
 
   componentWillUnmount() {
+    console.log('[MainLayout] unmounted')
   }
 
   render() {
