@@ -57,10 +57,10 @@ class Squads extends React.Component {
   }
 
   squadsListenerInsert = (data) => {
+    console.log('[Squads.squadsListenerInsert] called')
     if (this.insertionHold) return setTimeout(() => this.squadsListenerInsert(data), 10);
     this.insertionHold = true
 
-    console.log('[Squads.squadsListenerInsert] called')
     const newSquad = data
     if (this.state.squadsArr.some(squad => squad.squad_id == newSquad.squad_id)) {
       console.log('[Squads.squadsListenerInsert] duplicate squad')
@@ -72,12 +72,16 @@ class Squads extends React.Component {
   }
 
   squadsListenerUpdate = (data) => {
+    console.log('[Squads.squadsListenerUpdate] called')
     if (this.updatationHold) return setTimeout(() => this.squadsListenerUpdate(data), 10);
     this.updatationHold = true
     
-    console.log('[Squads.squadsListenerUpdate] called')
     const updatedSquad = data[0]
-    if (updatedSquad.status != 'active') return this.squadsListenerDelete(updatedSquad)
+    console.log('status',updatedSquad.status)
+    if (updatedSquad.status != 'active') {
+      this.updatationHold = false
+      return this.squadsListenerDelete(updatedSquad)
+    }
     return this.setState(state => {
         const squadsArr = state.squadsArr.map((squad, index) => {
           if (squad.squad_id === updatedSquad.squad_id) return updatedSquad.bot_type == 'relicbot' ? {...updatedSquad, squad_string: relicBotSquadToString(updatedSquad,true)} : updatedSquad;
@@ -88,11 +92,12 @@ class Squads extends React.Component {
         }
     }, () => {this.updatationHold = false});
   }
+  
   squadsListenerDelete = (data) => {
+    console.log('[Squads.squadsListenerDelete] called')
     if (this.deletionHold) return setTimeout(() => this.squadsListenerDelete(data), 10);
     this.deletionHold = true
 
-    console.log('[Squads.squadsListenerDelete] called')
     const deletedSquad = data
     return this.setState({
       squadsArr: this.state.squadsArr.filter((squad) => squad.squad_id != deletedSquad.squad_id)
