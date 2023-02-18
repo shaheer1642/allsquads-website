@@ -11,6 +11,7 @@ import { user_logged } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import ApiButton from '../../components/ApiButton';
 
+
 class Squads extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,9 @@ class Squads extends React.Component {
       timeSinceLastCall: new Date().getTime(),
       timeout: null
     }
+    this.insertionHold = false
+    this.updatationHold = false
+    this.deletionHold = false
   }
 
   componentDidMount() {
@@ -53,17 +57,24 @@ class Squads extends React.Component {
   }
 
   squadsListenerInsert = (data) => {
+    if (this.insertionHold) return setTimeout(() => this.squadsListenerInsert(data), 10);
+    this.insertionHold = true
+
     console.log('[Squads.squadsListenerInsert] called')
     const newSquad = data
-    // if (this.state.squadsArr.some(squad => squad.squad_id == newSquad.squad_id)) {
-    //   console.log('[Squads.squadsListenerInsert] duplicate squad')
-    //   return
-    // }
+    if (this.state.squadsArr.some(squad => squad.squad_id == newSquad.squad_id)) {
+      console.log('[Squads.squadsListenerInsert] duplicate squad')
+      return
+    }
     return this.setState({
       squadsArr: [newSquad.bot_type == 'relicbot' ? {...newSquad, squad_string: relicBotSquadToString(newSquad,true)} : newSquad, ...this.state.squadsArr].sort(dynamicSort('squad_string'))
-    })
+    }, () => {this.insertionHold = false})
   }
+
   squadsListenerUpdate = (data) => {
+    if (this.updatationHold) return setTimeout(() => this.squadsListenerUpdate(data), 10);
+    this.updatationHold = true
+    
     console.log('[Squads.squadsListenerUpdate] called')
     const updatedSquad = data[0]
     if (updatedSquad.status != 'active') return this.squadsListenerDelete(updatedSquad)
@@ -75,14 +86,17 @@ class Squads extends React.Component {
         return {
           squadsArr,
         }
-    });
+    }, () => {this.updatationHold = false});
   }
   squadsListenerDelete = (data) => {
+    if (this.deletionHold) return setTimeout(() => this.squadsListenerDelete(data), 10);
+    this.deletionHold = true
+
     console.log('[Squads.squadsListenerDelete] called')
     const deletedSquad = data
     return this.setState({
       squadsArr: this.state.squadsArr.filter((squad) => squad.squad_id != deletedSquad.squad_id)
-    })
+    }, () => {this.deletionHold = false});
   }
 
   fetchSquads = () => {
@@ -95,6 +109,7 @@ class Squads extends React.Component {
         if (res1.code == 200) {
           socket.emit('squadbot/squads/fetch', {}, (res2) => {
             // console.log('[Squads.fetchSquads] response2',res2.code)
+          console.log('fetchedsquads',JSON.stringify([...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data]) )
             if (res2.code == 200) {
               this.setState({
                 squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data].sort(dynamicSort('squad_string')),
@@ -106,17 +121,6 @@ class Squads extends React.Component {
         }
       })
     })
-    // this.setState({
-    //   squadsRefreshing: true
-    // }, () => {
-    //   clearTimeout(this.fetchSquad.timeout)
-    //   const setTimeoutValue = new Date().getTime() - this.fetchSquad.timeSinceLastCall > 2000 ? 0 : 1000
-    //   console.log('setTimeoutValue',setTimeoutValue)
-    //   this.fetchSquad.timeout = setTimeout(() => {
-    //     console.log('[Squads.fetchSquads] called')
-    //     this.fetchSquad.timeSinceLastCall = new Date().getTime()
-    //   }, setTimeoutValue);
-    // })
   }
 
   leaveAllSquads = (e, callback) => {
