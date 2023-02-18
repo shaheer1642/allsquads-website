@@ -116,7 +116,7 @@ class Squads extends React.Component {
     return (
       <Grid container spacing={1} style={{padding: '10px'}}>
         <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
         </Grid>
         <Grid item xs={12}></Grid>
         {/* <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
@@ -132,7 +132,7 @@ class Squads extends React.Component {
               this.setState({createSquadOpen: true})
             }}
             variant="outlined" 
-            style={{color: 'green', borderColor: 'green'}}
+            color='success'
             startIcon={<ControlPoint />}>
               Create Squad
           </Button>

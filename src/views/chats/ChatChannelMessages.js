@@ -11,6 +11,7 @@ import eventHandler from '../../event_handler/eventHandler';
 import { user_logged, authorizationCompleted } from '../../objects/user_login';
 import * as uuid from 'uuid';
 import * as Colors from '@mui/material/colors';
+import theme from '../../theme';
 
 
 function enquote(username) {
@@ -107,9 +108,9 @@ class ChatChannelMessages extends React.Component {
           {
             this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress /></Grid> :
             [
-              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
+              <Grid item xs={12}><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
               <Grid item xs={12}>
-                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.blue[700]}}>{squad_host}</pre> : <Button variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
+                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : <Button color='secondary' variant='outlined' onClick={() => this.onBecomeHostClick()}>Become Host</Button>}
               </Grid>,
               this.state.chatsArr.map((chat,index) => 
                 (<Grid item xs={12} key={index} style={{wordWrap: 'break-word'}}>
@@ -135,7 +136,7 @@ class ChatChannelMessages extends React.Component {
               />
           </Grid>
           <Grid item xs={2}>
-            <Button onClick={() => this.sendNewMessage()}><Send /></Button>
+            <Button color='secondary' onClick={() => this.sendNewMessage()}><Send /></Button>
           </Grid>
           
         </Grid>

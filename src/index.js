@@ -7,6 +7,7 @@ import React from "react";
 import MainLayout from "./layouts/MainLayout";
 import MainHome from "./views/MainHome";
 import VerificationScreen from "./views/Authorization/VerificationScreen";
+import theme from "./theme";
 
 export default function Router() {
   return (
@@ -23,20 +24,11 @@ export default function Router() {
   );
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: Color.orange[900],
-    },
-    secondary: {
-      main: Color.blue[900],
-    },
-  },
-});
+const themeTemplate = createTheme(theme);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={themeTemplate}>
       <CssBaseline />
       <Router />
   </ThemeProvider>

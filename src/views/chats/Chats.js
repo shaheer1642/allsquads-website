@@ -13,6 +13,7 @@ import ChatChannel from './ChatChannel';
 import { relicBotSquadToString } from '../../functions';
 import Squads from '../Squads/Squads';
 import ChatChannelMessages from './ChatChannelMessages';
+import theme from '../../theme';
 
 class Chats extends React.Component {
   constructor(props) {
@@ -99,14 +100,14 @@ class Chats extends React.Component {
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         PaperProps={{
-          sx: { maxWidth: "30%" },
+          sx: { maxWidth: "30%", backgroundColor: theme.palette.background.default },
         }}
       >
         <Grid container padding={"10px"} rowSpacing={'10px'}>
           {
             this.state.viewChat != null ?
             <Grid item xs={"auto"}>
-              <Button onClick={() => this.setState({viewChat: null})}><ArrowBack /></Button>
+              <Button onClick={() => this.setState({viewChat: null})}><ArrowBack  color='secondary'/></Button>
             </Grid> : <></>
           }
           <Grid item xs={this.state.viewChat == null ? 12 : 'auto'} width="100%" style={{display: 'flex', justifyContent: 'center'}}>

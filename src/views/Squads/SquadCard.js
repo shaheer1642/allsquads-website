@@ -10,6 +10,7 @@ import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { user_logged } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
+import theme from '../../theme';
 
 class SquadCard extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class SquadCard extends React.Component {
 
   render() {
     return (
-        <Card elevation={3} style={{padding: '10px', backgroundColor: this.props.squad.members.includes(user_logged?.discord_id) ? Colors.green[50] : 'white' }}>
+        <Card elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw' }}>
           <CardContent> 
             {/* Squad title */}
             <Typography variant="h5">
@@ -74,7 +75,7 @@ class SquadCard extends React.Component {
             disabled={this.state.joiningLeavingSquadLoading || this.props.disableActions}
             onClick={() => this.joinLeaveSquad()} 
             size="small" variant="outlined" 
-            style={this.props.disableActions ? {} : {color: this.props.squad.members.includes(user_logged?.discord_id) ? 'red' : 'green', borderColor: this.props.squad.members.includes(user_logged?.discord_id) ? 'red' : 'green'}}
+            color={this.props.squad.members.includes(user_logged?.discord_id) ? 'warning' : 'success'}
             startIcon={this.state.joiningLeavingSquadLoading? null : this.props.squad.members.includes(user_logged?.discord_id) ? <CancelOutlined /> : <DoneOutlined />}>
               {this.state.joiningLeavingSquadLoading ? <CircularProgress size='20px'/> 
               : this.props.squad.members.includes(user_logged?.discord_id) ? 'Leave Squad' : 'Join Squad'}

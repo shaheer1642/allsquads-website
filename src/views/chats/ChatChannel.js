@@ -9,6 +9,7 @@ import { getCookie } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
 import { user_logged, authorizationCompleted } from '../../objects/user_login';
 import { relicBotSquadToString } from '../../functions';
+import theme from '../../theme';
 
 class ChatChannel extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class ChatChannel extends React.Component {
 
   render() {
     return (
-      <Card elevation={3} onClick={this.props.onClick}>
+      <Card elevation={3} onClick={this.props.onClick} style={{background: theme.palette.background.default}}>
         <CardContent>
           <Typography variant='h5'>{convertUpper(this.props.squad.squad_string)}</Typography>
           <Typography style={{fontSize: '16px'}}></Typography>
