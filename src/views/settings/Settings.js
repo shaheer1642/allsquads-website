@@ -29,7 +29,7 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <Grid container margin="10px" padding="10px" rowSpacing={"20px"} columnSpacing={"20px"}> 
+      <Grid container padding="10px" rowSpacing={"20px"} columnSpacing={"20px"}> 
         <Grid item xs={12} justifyContent="center" display={"flex"}>
           <Typography variant='h3'>Settings</Typography>
         </Grid>
