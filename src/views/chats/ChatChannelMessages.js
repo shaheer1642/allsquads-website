@@ -50,7 +50,7 @@ class ChatChannelMessages extends React.Component {
 
   squadMessageListenerInsert = (data) => {
     if (data.squad_id != this.props.squad.squad_id) return
-    playSound.newMessage()
+    if (data.discord_id != user_logged.discord_id) playSound.newMessage()
     return this.setState({
       chatsArr: [...this.state.chatsArr, data]
     })
