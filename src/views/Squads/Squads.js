@@ -19,8 +19,14 @@ class Squads extends React.Component {
       squadsLoading: true,
       squadsRefreshing: true,
       squadsArr: [],
-      showMembers: false,
       createSquadOpen: false,
+
+      showMembers: false,
+      lithSquads: true,
+      mesoSquads: true,
+      neoSquads: true,
+      axiSquads: true,
+      otherSquads: true,
     };
     this.fetchSquad = {
       timeSinceLastCall: new Date().getTime(),
@@ -142,11 +148,36 @@ class Squads extends React.Component {
     })
   }
 
+  filterSquads = (squad) => {
+    if (squad.squad_string.match('lith'))
+      if (this.state.lithSquads) return true
+      else return false
+    if (squad.squad_string.match('meso'))
+      if (this.state.mesoSquads) return true
+      else return false
+    if (squad.squad_string.match('neo'))
+      if (this.state.neoSquads) return true
+      else return false
+    if (squad.squad_string.match('axi'))
+      if (this.state.axiSquads) return true
+      else return false
+    if (this.state.otherSquads) return true
+    else return false
+  }
+
   render() {
     return (
       <Grid container spacing={1} style={{padding: '10px'}}>
         <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
+        </Grid>
+        <Grid item xs={12}></Grid>
+        <Grid item xs={"auto"}>
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.lithSquads} onChange={(e) => this.setState({lithSquads: e.target.checked})}/>} label="Lith Squads" />
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.mesoSquads} onChange={(e) => this.setState({mesoSquads: e.target.checked})}/>} label="Meso Squads" />
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.neoSquads} onChange={(e) => this.setState({neoSquads: e.target.checked})}/>} label="Neo Squads" />
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.axiSquads} onChange={(e) => this.setState({axiSquads: e.target.checked})}/>} label="Axi Squads" />
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.otherSquads} onChange={(e) => this.setState({otherSquads: e.target.checked})}/>} label="Other Squads" />
         </Grid>
         {/* <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
           <Typography sx={{wordWrap: 'break-word'}}>
@@ -184,7 +215,7 @@ class Squads extends React.Component {
         </Grid>
         <Grid item xs={12}></Grid>
         {this.state.squadsLoading ? <Grid item xs={12}><CircularProgress color="tertiary"/></Grid>:
-          this.state.squadsArr.map((squad,index) => {
+          this.state.squadsArr.filter(this.filterSquads).map((squad,index) => {
             return (
               <Grid item xs={"auto"} key={index}>
                 <SquadCard squad={squad} showMembers={this.state.showMembers} disableActions={false}/>

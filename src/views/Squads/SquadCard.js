@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { Link, Outlet } from "react-router-dom";
-import {Card, CardContent, Typography, Button, CardActions, CircularProgress, fabClasses} from '@mui/material';
+import {Card, CardContent, Typography, Button, CardActions, CircularProgress, Grid} from '@mui/material';
 import {DoneOutlined, CancelOutlined} from '@mui/icons-material'
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { relicBotSquadToString } from '../../functions';
@@ -12,12 +12,13 @@ import eventHandler from '../../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
 import ApiButton from '../../components/ApiButton';
+import { getImageFromSquadString } from '../../image_handler';
 
 class SquadCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        usersListLoading: true,
+      usersListLoading: true,
     }
   }
 
@@ -42,20 +43,23 @@ class SquadCard extends React.Component {
     return (
         <Card elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.tertiary.main}` : '' }}>
           <CardContent> 
-            {/* Squad title */}
-            <Typography variant="h5">
-                <pre style={{ fontFamily: 'inherit' }}>
+            <Grid container  direction={"row"} width={"100%"} justifyContent='start'>
+              {/* Squad title */}
+                <Grid item xs={"auto"} display={'flex'}>
+                    {getImageFromSquadString(this.props.squad.squad_string) ? <img style={{marginRight: '10px'}} src={getImageFromSquadString(this.props.squad.squad_string)} height="42px"/> : <></>}
+                </Grid>
+                <Grid item xs={"auto"} style={{marginTop: '5px'}} alignItems='start'>
+                  <Typography variant="h5">
                     {convertUpper(this.props.squad.squad_string)}
-                </pre>
-            </Typography>
-            {/* Squad members */}
-            {this.state.usersListLoading ? <CircularProgress /> :
-            <Typography variant="body">
-                <pre style={{ fontFamily: 'inherit' }}>
-                    { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
-                </pre>
-            </Typography>
-            }
+                  </Typography>
+                  {/* Squad members */}
+                  {this.state.usersListLoading ? <CircularProgress /> :
+                  <Typography variant="body">
+                          { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
+                  </Typography>
+                  }
+                </Grid>
+            </Grid>
           </CardContent>
           <CardActions style={{justifyContent: 'center'}}>
             <ApiButton 
