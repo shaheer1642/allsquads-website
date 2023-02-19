@@ -50,7 +50,7 @@ class SquadCard extends React.Component {
             </Typography>
             {/* Squad members */}
             {this.state.usersListLoading ? <CircularProgress /> :
-            <Typography variant="h6">
+            <Typography variant="body">
                 <pre style={{ fontFamily: 'inherit' }}>
                     { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
                 </pre>

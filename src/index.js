@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material/styles';
 import * as Color from '@mui/material/colors';
 import React from "react";
 import MainLayout from "./layouts/MainLayout";
@@ -26,7 +26,7 @@ export default function Router() {
   );
 }
 
-const themeTemplate = createTheme(theme);
+const themeTemplate = responsiveFontSizes((createTheme(theme)));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
