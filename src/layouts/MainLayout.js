@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { Link, Outlet } from "react-router-dom";
-import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab} from '@mui/material';
+import {Box, AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab, Grid} from '@mui/material';
 import {Chat} from '@mui/icons-material'
 import {Menu, Settings} from '@mui/icons-material';
 import {socket,socketHasConnected} from '../websocket/socket'
@@ -36,14 +36,37 @@ class MainLayout extends React.Component {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-              Warframe Squads
-            </Typography>
-            {this.state.loginLoading ? <CircularProgress color='secondary'/> :
+              <Typography 
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                  flexGrow: 1,
+                  mr: 2,
+                  display: { xs: 'flex' },
+                  textDecoration: 'none',
+                  color: 'inherit'
+                }}
+              >
+                Warframe Squads
+              </Typography>
+            {this.state.loginLoading ? <CircularProgress color='primary'/> :
             user_logged ? 
-            <Typography color="inherit" variant="h6">
-              Logged in as {user_logged.ingame_name}
-            </Typography>
+              <Typography 
+                variant="h6"
+                noWrap
+                component="a"
+                href={`/profile/${user_logged.ingame_name}`}
+                sx={{
+                  mr: 2,
+                  display: { xs: 'flex' },
+                  textDecoration: 'none',
+                  color: 'inherit'
+                }}
+              >
+                Logged in as {user_logged.ingame_name}
+              </Typography>
             :
             <Button color="inherit" onClick={() => this.setState({loginOpen: true})}>Login</Button>
             }

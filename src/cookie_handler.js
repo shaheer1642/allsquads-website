@@ -1,6 +1,6 @@
-function putCookie(key, value, path = '/') {
+function putCookie(key, value, maxAge, path = '/', ) {
     if (!getCookie('allow_cookies') || getCookie('allow_cookies') == 'false') return value
-    document.cookie = `${key}=${value};path=${path}`;
+    document.cookie = `${key}=${value};path=${path};max-age=${maxAge}`;
     return value
 }
 

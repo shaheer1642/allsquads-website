@@ -38,11 +38,11 @@ class CookieConsent extends React.Component {
         </DialogContent>
         <DialogActions style={{justifyContent: 'center'}}>
             <Button variant='contained' onClick={() => {
-                document.cookie = `allow_cookies=true;path=/`;
+                document.cookie = `allow_cookies=true;path=/;max-age=31556952`;
                 this.setState({open: false})
             }}>Accept Cookies</Button>
             <Button variant='outlined' onClick={() => {
-                document.cookie = `allow_cookies=false;path=/`;
+                document.cookie = `allow_cookies=false;path=/;max-age=31556952`;
                 this.setState({open: false})
             }}>Reject Cookies</Button>
         </DialogActions>

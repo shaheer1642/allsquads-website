@@ -10,7 +10,7 @@ const updateConfig = {
     play_sounds: {
         new_message: (value, callback) => {
             config.play_sounds.new_message = value
-            putCookie('config.play_sounds.new_message',value)
+            putCookie('config.play_sounds.new_message', value, 2592000)
             if (callback) callback()
         }
     }
