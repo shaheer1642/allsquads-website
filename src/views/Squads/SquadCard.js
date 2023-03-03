@@ -55,7 +55,9 @@ class SquadCard extends React.Component {
                   {/* Squad members */}
                   {this.state.usersListLoading ? <CircularProgress /> :
                   <Typography variant="body">
-                          { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
+                    <pre>
+                      { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
+                    </pre>
                   </Typography>
                   }
                 </Grid>

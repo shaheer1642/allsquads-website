@@ -174,11 +174,20 @@ class Squads extends React.Component {
         <Grid item xs={12}></Grid>
         <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.lithSquads} onChange={(e) => this.setState({lithSquads: e.target.checked})}/>} label="Lith Squads" />
+        </Grid>
+        <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.mesoSquads} onChange={(e) => this.setState({mesoSquads: e.target.checked})}/>} label="Meso Squads" />
+        </Grid>
+        <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.neoSquads} onChange={(e) => this.setState({neoSquads: e.target.checked})}/>} label="Neo Squads" />
+        </Grid>
+        <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.axiSquads} onChange={(e) => this.setState({axiSquads: e.target.checked})}/>} label="Axi Squads" />
+        </Grid>
+        <Grid item xs={"auto"}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.otherSquads} onChange={(e) => this.setState({otherSquads: e.target.checked})}/>} label="Other Squads" />
         </Grid>
+        <Grid item xs={12}></Grid>
         {/* <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
           <Typography sx={{wordWrap: 'break-word'}}>
           Caution! The website is for testing only. Please do not open any squads from here as there is no chat system at the moment
