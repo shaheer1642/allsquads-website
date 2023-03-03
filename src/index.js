@@ -37,3 +37,13 @@ root.render(
       <Router />
   </ThemeProvider>
 );
+
+let name = 'AllSquads'
+let version = '1.0.1'
+console.log(`${name} v${version} 😎`)
+const last_version = localStorage.getItem(`${name}-Version`)
+if(last_version !== version){
+    console.log('New Version Available ! 😝')
+    localStorage.setItem(`${name}-Version`, version)
+    window.location.reload(true);
+}
