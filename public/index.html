@@ -23,30 +23,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>Warframe Squads</title>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        // navigator.serviceWorker.getRegistrations()
-        //   .then(registrations => {
-        //     const promises = []
-        //     registrations.forEach(registration => {
-        //       promises.push(
-        //         new Promise((resolve,reject) => registration.unregister().then(() => resolve()))
-        //       )
-        //     })
-        //     Promise.all(promises).then(() => {
-        //     })
-        //   })
-        navigator.serviceWorker.register('serviceWorker.js').then(function (registration) {
-          // Registration was successful
-          console.log('serviceWorker.js ServiceWorker registration successful with scope: ', registration.scope);
-        }, function (err) {
-          // registration failed :(
-          console.log('serviceWorker.js ServiceWorker registration failed: ', err);
-        });
-      });
-    }
-  </script>
 </head>
 
 <body>
@@ -62,6 +38,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="/js/pwa.js"></script>
 </body>
 
 </html>
