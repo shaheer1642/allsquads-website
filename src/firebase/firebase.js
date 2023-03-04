@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { user_logged } from '../objects/user_login';
+import { user_logged, authorizationCompleted } from '../objects/user_login';
 import { socket } from '../websocket/socket';
 
 const firebaseConfig = {
@@ -21,7 +21,9 @@ export const fetchToken = async (setTokenFound) => {
     if (currentToken) {
       console.log('current token for client: ', currentToken);
       setTokenFound(true);
-      socket.emit('allsquads/fcm/token/update', {discord_id: user_logged?.discord_id, fcm_token: currentToken})
+      authorizationCompleted().then(() => {
+        socket.emit('allsquads/fcm/token/update', {discord_id: user_logged?.discord_id, fcm_token: currentToken})
+      }).catch(console.error)
       // Track the token -> client mapping, by sending to backend server
       // show on the UI that permission is secured
     } else {
