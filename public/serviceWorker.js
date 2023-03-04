@@ -1,4 +1,4 @@
-const CACHE_NAME = 'site-cache-v2.1';
+const CACHE_NAME = 'site-cache-v2.2';
 const toCache = [
     '/',
     '/index.html',
@@ -24,7 +24,11 @@ self.addEventListener('fetch', function(event) {
   
         event.waitUntil(async function() {
           const response = await request
-          await cache.put(event.request, await response.clone())
+          try {
+            await cache.put(event.request, response.clone())
+          } catch (e) {
+            console.error(e)
+          }
         }())
   
         return cacheMatch || request
