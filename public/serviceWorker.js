@@ -1,4 +1,4 @@
-let CACHE_NAME = 'my-site-cache-v1';
+let CACHE_NAME = 'site-cache-v1.1';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -24,19 +24,19 @@ self.addEventListener('fetch', function (event) {
         })
     );
 });
-self.addEventListener('activate', function(event) {
-    event.waitUntil(
-        caches.keys().then(function(cacheNames) {
-            return Promise.all(
-                cacheNames.filter(function(cacheName) {
-                    // Return true if you want to remove this cache,
-                    // but remember that caches are shared across
-                    // the whole origin
-                    return true
-                }).map(function(cacheName) {
-                    return caches.delete(cacheName);
-                })
-            );
-        })
-    );
-  });
+// self.addEventListener('activate', function(event) {
+//     event.waitUntil(
+//         caches.keys().then(function(cacheNames) {
+//             return Promise.all(
+//                 cacheNames.filter(function(cacheName) {
+//                     // Return true if you want to remove this cache,
+//                     // but remember that caches are shared across
+//                     // the whole origin
+//                     return true
+//                 }).map(function(cacheName) {
+//                     return caches.delete(cacheName);
+//                 })
+//             );
+//         })
+//     );
+//   });
