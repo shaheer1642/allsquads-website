@@ -19,7 +19,7 @@ self.addEventListener('fetch', function(event) {
     const cacheMatch = await cache.match(event.request)
 
     if (navigator.onLine) {
-      const request = fetch(event.request)
+      const request = fetch(event.request, {cache: 'no-store'})
 
       event.waitUntil(async function() {
         const response = await request
