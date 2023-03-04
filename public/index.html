@@ -26,24 +26,24 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
-        navigator.serviceWorker.getRegistrations()
-          .then(registrations => {
-            const promises = []
-            registrations.forEach(registration => {
-              promises.push(
-                new Promise((resolve,reject) => registration.unregister().then(() => resolve()))
-              )
-            })
-            Promise.all(promises).then(() => {
-              navigator.serviceWorker.register('serviceWorker.js').then(function (registration) {
-                // Registration was successful
-                console.log('serviceWorker.js ServiceWorker registration successful with scope: ', registration.scope);
-              }, function (err) {
-                // registration failed :(
-                console.log('serviceWorker.js ServiceWorker registration failed: ', err);
-              });
-            })
-          })
+        // navigator.serviceWorker.getRegistrations()
+        //   .then(registrations => {
+        //     const promises = []
+        //     registrations.forEach(registration => {
+        //       promises.push(
+        //         new Promise((resolve,reject) => registration.unregister().then(() => resolve()))
+        //       )
+        //     })
+        //     Promise.all(promises).then(() => {
+        //     })
+        //   })
+        navigator.serviceWorker.register('serviceWorker.js').then(function (registration) {
+          // Registration was successful
+          console.log('serviceWorker.js ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          // registration failed :(
+          console.log('serviceWorker.js ServiceWorker registration failed: ', err);
+        });
       });
     }
   </script>
