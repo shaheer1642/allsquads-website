@@ -1,7 +1,7 @@
 {
     "name": "AllSquads",
-    "short_name": "pwa-tutorial",
-    "description": "Progressive Web App example to be used in conjuction with the article in LogRocket",
+    "short_name": "AllSquads",
+    "description": "Find and recruit players for your Warframe squads",
     "icons": [
       {
         "src": "favicon.ico",
