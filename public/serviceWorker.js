@@ -1,4 +1,4 @@
-const CACHE_NAME = 'site-cache-v1.6';
+const CACHE_NAME = 'site-cache-v2.0';
 const toCache = [
     '/',
     '/index.html',
@@ -14,23 +14,25 @@ self.addEventListener('install', function(event) {
 })
 
 self.addEventListener('fetch', function(event) {
-  event.respondWith(async function() {
-    const cache = await caches.open(CACHE_NAME)
-    const cacheMatch = await cache.match(event.request)
-
-    if (navigator.onLine) {
-      const request = fetch(event.request, {cache: 'no-store'})
-
-      event.waitUntil(async function() {
-        const response = await request
-        await cache.put(event.request, await response.clone())
-      }())
-
-      return cacheMatch || request
-    }
-
-    return cacheMatch
-  }())
+  if((event.request.url.indexOf('http') === 0)) {
+    event.respondWith(async function() {
+      const cache = await caches.open(CACHE_NAME)
+      const cacheMatch = await cache.match(event.request)
+  
+      if (navigator.onLine) {
+        const request = fetch(event.request, {cache: 'no-store'})
+  
+        event.waitUntil(async function() {
+          const response = await request
+          await cache.put(event.request, await response.clone())
+        }())
+  
+        return cacheMatch || request
+      }
+  
+      return cacheMatch
+    }())
+  }
 })
 
 self.addEventListener('activate', function(event) {
