@@ -10,6 +10,7 @@ import VerificationScreen from "./views/Authorization/VerificationScreen";
 import theme from "./theme";
 import Settings from "./views/settings/Settings";
 import Profile from "./views/profile/Profile";
+import FirebaseNotifications from "./firebase/firebase-notifications";
 
 export default function Router() {
   return (
@@ -35,15 +36,16 @@ root.render(
   <ThemeProvider theme={themeTemplate}>
       <CssBaseline />
       <Router />
+      <FirebaseNotifications />
   </ThemeProvider>
 );
 
-let name = 'AllSquads'
-let version = '1.0.1'
-console.log(`${name} v${version} 😎`)
-const last_version = localStorage.getItem(`${name}-Version`)
-if(last_version !== version){
-    console.log('New Version Available ! 😝')
-    localStorage.setItem(`${name}-Version`, version)
-    window.location.reload(true);
-}
+// let name = 'AllSquads'
+// let version = '1.0.1'
+// console.log(`${name} v${version} 😎`)
+// const last_version = localStorage.getItem(`${name}-Version`)
+// if(last_version !== version){
+//     console.log('New Version Available ! 😝')
+//     localStorage.setItem(`${name}-Version`, version)
+//     window.location.reload(true);
+// }
