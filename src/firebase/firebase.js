@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { getMessaging, getToken } from "firebase/messaging";
 import { user_logged, authorizationCompleted } from '../objects/user_login';
 import { socket } from '../websocket/socket';
 
@@ -14,32 +14,21 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
+export const messaging = getMessaging(firebaseApp);
 
-export const fetchToken = async (setTokenFound) => {
+export const fetchToken = async (callback) => {
   return getToken(messaging, {vapidKey: process.env.REACT_APP_FIREBASE_FCM_VAPIDKEY}).then((currentToken) => {
     if (currentToken) {
-      console.log('current token for client: ', currentToken);
-      setTokenFound(true);
+      console.log('[Firebase FCM] Current token for client:', currentToken);
       authorizationCompleted().then(() => {
         socket.emit('allsquads/fcm/token/update', {discord_id: user_logged?.discord_id, fcm_token: currentToken})
       }).catch(console.error)
-      // Track the token -> client mapping, by sending to backend server
-      // show on the UI that permission is secured
+      callback(true);
     } else {
-      console.log('No registration token available. Request permission to generate one.');
-      setTokenFound(false);
-      // shows on the UI that permission is required 
+      console.log('[Firebase FCM] No registration token available. Request permission to generate one.');
+      callback(false);
     }
   }).catch((err) => {
-    console.log('An error occurred while retrieving token. ', err);
-    // catch error while creating client token
+    console.log('[Firebase FCM] An error occurred while retrieving token. ', err);
   });
 }
-
-export const onMessageListener = () =>
-  new Promise((resolve) => {
-    onMessage(messaging, (payload) => {
-      resolve(payload);
-    });
-});
