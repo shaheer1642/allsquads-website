@@ -11,6 +11,9 @@ import theme from "./theme";
 import Settings from "./views/settings/Settings";
 import Profile from "./views/profile/Profile";
 import FirebaseNotifications from "./firebase/firebase-notifications";
+import TermsOfService from "./views/MainFooter/TermsOfService";
+import PrivacyPolicy from "./views/MainFooter/PrivacyPolicy";
+import FAQ from "./views/MainFooter/FAQ";
 
 export default function Router() {
   return (
@@ -20,6 +23,9 @@ export default function Router() {
           <Route index element={<MainHome />} />
           <Route path="settings" element={<Settings />} />
           <Route path="profile/:username" element={<Profile />} />
+          <Route path="terms-of-service" element={<TermsOfService />} />
+          <Route path="privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="faq" element={<FAQ />} />
         </Route>
         <Route path="/verification" element={<VerificationScreen />}>
           <Route index element={<VerificationScreen />} />

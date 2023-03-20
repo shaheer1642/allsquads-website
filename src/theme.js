@@ -1,3 +1,5 @@
+import * as Color from '@mui/material/colors';
+
 const theme = {
     palette: {
         mode: 'dark',
