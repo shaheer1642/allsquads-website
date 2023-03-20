@@ -33,9 +33,10 @@ class FAQ extends React.Component {
             {this.state.faqs.map(faq => (
                 <React.Fragment>
                     <Typography>{'\u200b'}</Typography>
-                    <Typography variant='h5'>{`${headCounter++}. ${faq.title.en}`}</Typography>
+                    <Typography variant='h5' color='tertiary.main'>{`${headCounter++}. ${faq.title.en}`}</Typography>
+                    <Typography>{'\u200b'}</Typography>
                     {faq.body.en.split('\r\n').map(line => <Typography>{line?.replace(/\*/g,'') || '\u200b'}</Typography>)}
-                    {faq.image_url?.en? <img src={faq.image_url.en} /> : <></>}
+                    {faq.image_url?.en? <img src={faq.image_url.en} style={{maxWidth: '100%'}} /> : <></>}
                 </React.Fragment>
             ))}
         </React.Fragment>
@@ -53,7 +54,7 @@ class FAQ extends React.Component {
             <Typography variant='h4'>Frequency Asked Questions (FAQ)</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography variant='h6'>{this.formatText(this.state.faqs) || <CircularProgress />}</Typography>
+            {this.formatText(this.state.faqs) || <CircularProgress />}
         </Grid>
       </Grid>
     );

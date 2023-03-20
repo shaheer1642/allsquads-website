@@ -27,7 +27,7 @@ class TermsOfService extends React.Component {
             {text.split('\r\n').map(line => {
                 if (line.match(/^##/) && line.match(/##$/)) {
                     headCounter++
-                    return <Typography variant='h5'>{`${headCounter}. ${line.replace(/^##/,'').replace(/##$/,'')}`}</Typography>
+                    return <Typography variant='h5' color='tertiary.main'>{`${headCounter}. ${line.replace(/^##/,'').replace(/##$/,'')}`}</Typography>
                 } else return <Typography>{line || '\u200b'}</Typography>
             })}
         </React.Fragment>
@@ -45,7 +45,7 @@ class TermsOfService extends React.Component {
             <Typography variant='h4'>Terms of Service</Typography>
         </Grid>
         <Grid item xs={12}>
-            <Typography variant='h6'>{this.formatText(this.state.termsOfService) || <CircularProgress />}</Typography>
+            {this.formatText(this.state.termsOfService) || <CircularProgress />}
         </Grid>
       </Grid>
     );
