@@ -24,7 +24,7 @@ class PrivacyPolicy extends React.Component {
     var headCounter = 1
     return (
         <React.Fragment>
-            {text.split('\r\n').map(line => {
+            {text.replace(/\r\n/g,'\n').split('\n').map(line => {
                 if (line.startsWith('##') && line.endsWith('##'))
                   return <Typography variant='h5' color='tertiary.main'>{`${headCounter++}. ${line.replace(/#/g,'')}`}</Typography>
                 else 

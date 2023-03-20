@@ -44,15 +44,15 @@ class MainFooter extends React.Component {
         </Grid>
         <Grid item xs={12}></Grid> */}
         <Grid item xs={'auto'}>
-          <Link href="faq" color={'tertiary.main'}>FAQ</Link>
+          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('faq');window.scrollTo({ top: 0, behavior: "smooth" })}}>FAQ</Link>
         </Grid>
         <Grid item xs={'auto'}>|</Grid>
         <Grid item xs={'auto'}>
-          <Link href="terms-of-service" color={'tertiary.main'}>Terms of Service</Link>
+          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('terms-of-service');window.scrollTo({ top: 0, behavior: "smooth" })}}>Terms of Service</Link>
         </Grid>
         <Grid item xs={'auto'}>|</Grid>
         <Grid item xs={'auto'}>
-          <Link href="privacy-policy" color={'tertiary.main'}>Privacy Policy</Link>
+          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('privacy-policy');window.scrollTo({ top: 0, behavior: "smooth" })}}>Privacy Policy</Link>
         </Grid>
         <Grid item xs={12}></Grid>
         <Grid item xs={'auto'} alignItems='center' display='flex'>
