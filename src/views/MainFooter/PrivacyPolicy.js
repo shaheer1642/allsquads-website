@@ -21,14 +21,14 @@ class PrivacyPolicy extends React.Component {
 
   formatText = (text) => {
     if (!text) return
-    var headCounter = 0
+    var headCounter = 1
     return (
         <React.Fragment>
             {text.split('\r\n').map(line => {
-                if (line.match(/^##/) && line.match(/##$/)) {
-                    headCounter++
-                    return <Typography variant='h5' color='tertiary.main'>{`${headCounter}. ${line.replace(/^##/,'').replace(/##$/,'')}`}</Typography>
-                } else return <Typography>{line || '\u200b'}</Typography>
+                if (line.startsWith('##') && line.endsWith('##'))
+                  return <Typography variant='h5' color='tertiary.main'>{`${headCounter++}. ${line.replace(/#/g,'')}`}</Typography>
+                else 
+                  return <Typography>{line || '\u200b'}</Typography>
             })}
         </React.Fragment>
     )
