@@ -18,7 +18,7 @@ class MainFooter extends React.Component {
     this.state = {
     };
 
-    special_thanks_members = [{
+    this.special_thanks_members = [{
       name: '',
       url: ''
     }]
