@@ -18,10 +18,9 @@ class MainFooter extends React.Component {
     this.state = {
     };
 
-    this.special_thanks_members = [{
-      name: '',
-      url: ''
-    }]
+    this.special_thanks_members = [
+      'Crive33','--FL--MattHarrigan','tia1331','-Isana_Yashiro-','JohnWickPrime','--DR--XIII.XI.MMVIII','Ady88','Leopard33'
+    ]
   }
 
   componentDidMount() {
@@ -72,7 +71,7 @@ class MainFooter extends React.Component {
         </Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>
           <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
-            Special thanks to the following members for helping development of this project: 
+            {`Special thanks to the following members for helping development of this project: ${this.special_thanks_members.sort().join(', ')}`}
           </Typography>
         </Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>
