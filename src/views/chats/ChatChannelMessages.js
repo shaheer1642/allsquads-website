@@ -98,9 +98,10 @@ class ChatChannelMessages extends React.Component {
     var hosts = this.props.squad.host_recommendation;
     var host_selection;
     if (hosts?.[0].considered_ping == null) {
+      
       host_selection = `Please decide a host and invite each other in the game`
     } else {
-      host_selection = `Recommended Host: ${hosts[0].ign} with avg squad ping of ${hosts[0].avg_squad_ping}`
+      host_selection = `Recommended Host: ${as_users_list[hosts[0]?.user_id]?.ingame_name} with avg squad ping of ${hosts[0]?.avg_squad_ping}`
     }
     const invite_list = `/invite ${sortCaseInsensitive(this.props.squad.members.map(id => enquote(as_users_list[id]?.ingame_name))).join('\n/invite ')}`
     const squad_status_message = this.props.squad.status != 'opened' ? `This squad has been ${this.props.squad.status}` : ''

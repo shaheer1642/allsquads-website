@@ -16,18 +16,18 @@ class MainFooter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginOpen: false,
-      loginLoading: true
     };
+
+    special_thanks_members = [{
+      name: '',
+      url: ''
+    }]
   }
 
   componentDidMount() {
-    console.log('[MainLayout] mounted')
-    authorizationCompleted().then(() => this.setState({loginLoading: false})).catch(console.error)
   }
 
   componentWillUnmount() {
-    console.log('[MainLayout] unmounted')
   }
 
   render() {
@@ -68,6 +68,11 @@ class MainFooter extends React.Component {
         <Grid item xs={12} justifyContent='center' display={'flex'}>
           <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
             DISCLAIMER: Digital Extremes and Warframe are registered trademarks. This website has no direct affiliation with Digital Extremes. All recognizable artwork is intellectual property of these trademarks.
+          </Typography>
+        </Grid>
+        <Grid item xs={12} justifyContent='center' display={'flex'}>
+          <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
+            Special thanks to the following members for helping development of this project: 
           </Typography>
         </Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>
