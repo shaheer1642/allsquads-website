@@ -21,7 +21,7 @@ export const fetchToken = async (callback) => {
     if (currentToken) {
       console.log('[Firebase FCM] Current token for client:', currentToken);
       authorizationCompleted().then(() => {
-        socket.emit('allsquads/fcm/token/update', {discord_id: user_logged?.discord_id, fcm_token: currentToken})
+        socket.emit('allsquads/fcm/token/update', {user_id: user_logged?.user_id, fcm_token: currentToken})
       }).catch(console.error)
       callback(true);
     } else {

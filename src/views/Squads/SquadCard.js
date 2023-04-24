@@ -68,16 +68,16 @@ class SquadCard extends React.Component {
               onClick={(e,callback) => {
                 socket.emit(`${this.props.squad.bot_type}/squads/addmember`,{
                   squad_id: this.props.squad.squad_id,
-                  discord_id: user_logged.discord_id,
+                  user_id: user_logged.user_id,
                   channel_id: 'web-111',
                 }, (res) => {
                     if (callback) callback(res)
                 })
               }}
               variant="outlined" 
-              color={this.props.squad.members.includes(user_logged?.discord_id) ? 'warning' : 'success'}
-              startIcon={this.props.squad.members.includes(user_logged?.discord_id) ? <CancelOutlined /> : <DoneOutlined />}
-              label={this.props.squad.members.includes(user_logged?.discord_id) ? 'Leave Squad' : 'Join Squad'}
+              color={this.props.squad.members.includes(user_logged?.user_id) ? 'warning' : 'success'}
+              startIcon={this.props.squad.members.includes(user_logged?.user_id) ? <CancelOutlined /> : <DoneOutlined />}
+              label={this.props.squad.members.includes(user_logged?.user_id) ? 'Leave Squad' : 'Join Squad'}
             />
           </CardActions>
         </Card>

@@ -50,7 +50,7 @@ class ChatChannelMessages extends React.Component {
 
   squadMessageListenerInsert = (data) => {
     if (data.squad_id != this.props.squad.squad_id) return
-    if (data.discord_id != user_logged.discord_id) playSound.newMessage()
+    if (data.user_id != user_logged.user_id) playSound.newMessage()
     return this.setState({
       chatsArr: [...this.state.chatsArr, data]
     })
@@ -74,7 +74,7 @@ class ChatChannelMessages extends React.Component {
       squad_id: this.props.squad.squad_id, 
       thread_id: 'web-111', 
       message: this.state.newMessage, 
-      discord_id: user_logged.discord_id
+      user_id: user_logged.user_id
     }, (res) => {
       this.setState({
         newMessage: ''
@@ -86,7 +86,7 @@ class ChatChannelMessages extends React.Component {
   }
 
   onBecomeHostClick = (e, callback) => {
-    socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, discord_id: user_logged.discord_id},(res) => {
+    socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, user_id: user_logged.user_id},(res) => {
       if (res.code != 200) {
         console.log('[ChatChannelMessages.onBecomeHostClick] error',res)
       }
@@ -119,7 +119,7 @@ class ChatChannelMessages extends React.Component {
               </Grid>,
               this.state.chatsArr.map((chat,index) => 
                 (<Grid item xs={12} key={`squad-message-${index}`} style={{wordWrap: 'break-word'}}>
-                  {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.discord_id]?.ingame_name}: ${chat.message}`}
+                  {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.user_id]?.ingame_name}: ${chat.message}`}
                 </Grid>)
               ),
               <Grid item xs={12} key='squad-status'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid>

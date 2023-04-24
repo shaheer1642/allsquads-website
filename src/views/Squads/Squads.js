@@ -135,11 +135,11 @@ class Squads extends React.Component {
 
   leaveAllSquads = (e, callback) => {
     socket.emit(`squadbot/squads/leaveall`,{
-      discord_id: user_logged.discord_id,
+      user_id: user_logged.user_id,
     }, (res) => {
       if (res.code != 200) console.log('[Squads.leaveAllSquads] query 1 error',res)
       socket.emit(`relicbot/squads/leave`,{
-        discord_id: user_logged.discord_id,
+        user_id: user_logged.user_id,
         tier: 'all',
       }, (res) => {
         if (res.code != 200) console.log('[Squads.leaveAllSquads] query 2 error',res)
@@ -207,7 +207,7 @@ class Squads extends React.Component {
               Create Squad
           </Button>
         </Grid>
-        {this.state.squadsArr.some(squad => squad.members.includes(user_logged?.discord_id)) ? 
+        {this.state.squadsArr.some(squad => squad.members.includes(user_logged?.user_id)) ? 
           <Grid item xs={"auto"}>
           <ApiButton 
             onClick={this.leaveAllSquads}

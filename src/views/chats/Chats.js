@@ -54,7 +54,7 @@ class Chats extends React.Component {
   }
 
   newSquadOpenedListener = (data) => {
-    if (data.members.includes(user_logged?.discord_id)) {
+    if (data.members.includes(user_logged?.user_id)) {
       this.fetchFilledSquads(() => {
         this.openChat({squad: data})
       })
@@ -79,7 +79,7 @@ class Chats extends React.Component {
 
   fetchFilledSquads = (callback) => {
     if (!user_logged) return
-    socket.emit('allsquads/user/filledSquads/fetch', {discord_id: user_logged.discord_id},(res) => {
+    socket.emit('allsquads/user/filledSquads/fetch', {user_id: user_logged.user_id},(res) => {
       if (res.code == 200) {
         const filledSquads = res.data.map(squad => squad.bot_type == 'relicbot' ? ({...squad, squad_string: relicBotSquadToString(squad,true)}) : squad)
         this.setState({
@@ -88,7 +88,7 @@ class Chats extends React.Component {
         }, () => {
           if (callback) callback()
         })
-      }
+      } else console.log(res)
     })
   }
 

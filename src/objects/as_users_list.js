@@ -8,7 +8,7 @@ socketHasConnected().then(() => {
     socket.emit('allsquads/userslist', {}, (res) => {
         if (res.code == 200) {
             res.data.forEach(row => {
-                as_users_list[row.discord_id] = row
+                as_users_list[row.user_id] = row
             })
             eventHandler.emit('usersList/loaded')
         }

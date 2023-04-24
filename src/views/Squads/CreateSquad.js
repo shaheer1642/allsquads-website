@@ -39,7 +39,7 @@ class CreateSquad extends React.Component {
         loading: true
     }, () => {
         const bot_type = ['lith','meso','neo','axi'].some(value => this.state.squadName.match(value)) ? 'relicbot' : 'squadbot' 
-        socket.emit(`${bot_type}/squads/create`, {discord_id: user_logged.discord_id, message: this.state.squadName, channel_id: 'web-111', merge_squad: false}, (responses) => {
+        socket.emit(`${bot_type}/squads/create`, {user_id: user_logged.user_id, message: this.state.squadName, channel_id: 'web-111', merge_squad: false}, (responses) => {
             var msg = ''
             responses.forEach(res => {
                 if (res.code != 200)
