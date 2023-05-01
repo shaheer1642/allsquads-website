@@ -10,7 +10,7 @@ import { login_token } from '../../websocket/socket';
 
 const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchParams({
     client_id: process.env.REACT_APP_ENVIRONMENT == 'dev' ? '878017655028723803' : '832682369831141417',
-    redirect_uri: process.env.REACT_APP_SOCKET_URL+'api/allsquads/discordOAuth2/authorize',
+    redirect_uri: process.env.REACT_APP_SOCKET_URL+'api/allsquads/authorization/discordOAuth2',
     response_type: 'code',
     scope:'identify email guilds',
     state: `${login_token}_${process.env.REACT_APP_SERVER_ADDRESS}`
