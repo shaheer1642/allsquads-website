@@ -7,18 +7,18 @@ import {Menu, Settings} from '@mui/icons-material';
 import {socket,socketHasConnected} from '../websocket/socket'
 import LoginScreen from '../views/Authorization/LoginScreen';
 import { user_logged, authorizationCompleted } from '../objects/user_login';
-import Chats from '../views/chats/Chats';
+import Chats from '../views/Chats/Chats';
 import eventHandler from '../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
 import { withRouter } from '../withRouter';
 import CookieConsent from '../views/CookieConsent/CookieConsent';
 import MainFooter from './MainFooter';
+import Verification from '../views/Verification/Verification';
 
 class MainLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginOpen: false,
       loginLoading: true
     };
   }
@@ -26,10 +26,18 @@ class MainLayout extends React.Component {
   componentDidMount() {
     console.log('[MainLayout] mounted')
     authorizationCompleted().then(() => this.setState({loginLoading: false})).catch(console.error)
+    eventHandler.addListener('userLogin/stateChange', this.refreshComponent)
+    eventHandler.addListener('verification/updatedIgn', this.refreshComponent)
   }
 
   componentWillUnmount() {
     console.log('[MainLayout] unmounted')
+    eventHandler.removeListener('userLogin/stateChange', this.refreshComponent)
+    eventHandler.removeListener('verification/updatedIgn', this.refreshComponent)
+  }
+
+  refreshComponent = () => {
+    this.forceUpdate()
   }
 
   render() {
@@ -70,7 +78,7 @@ class MainLayout extends React.Component {
                   Logged in as {user_logged.ingame_name}
                 </Typography>
               :
-              <Button color="inherit" onClick={() => this.setState({loginOpen: true})}>Login</Button>
+              <Button color="inherit" onClick={() => eventHandler.emit('requestLogin')}>Login</Button>
               }
               <Button color="inherit" onClick={() => this.props.navigate('settings')}><Settings /></Button>
             </Toolbar>
@@ -82,7 +90,7 @@ class MainLayout extends React.Component {
         <Grid item xs={12}>
           <MainFooter />
         </Grid>
-        < LoginScreen onClose={() => this.setState({loginOpen: false})} open={this.state.loginOpen}/>
+        < LoginScreen />
         < Chats />
         <Fab style={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: Colors.orange[900]}} 
           onClick={() => {
@@ -95,6 +103,7 @@ class MainLayout extends React.Component {
           Sound Effects from <a href="https://pixabay.com/">Pixabay</a>
         </div> */}
         <CookieConsent />
+        <Verification/>
       </Grid>
     );
   }

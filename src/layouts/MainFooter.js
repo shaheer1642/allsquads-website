@@ -1,15 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab, Grid, Link} from '@mui/material';
-import {DiscountRounded} from '@mui/icons-material'
-import {socket,socketHasConnected} from '../websocket/socket'
-import LoginScreen from '../views/Authorization/LoginScreen';
-import { user_logged, authorizationCompleted } from '../objects/user_login';
-import Chats from '../views/chats/Chats';
-import eventHandler from '../event_handler/eventHandler';
-import * as Colors from '@mui/material/colors';
+import { Typography, Grid, Link} from '@mui/material';
 import { withRouter } from '../withRouter';
-import CookieConsent from '../views/CookieConsent/CookieConsent';
 import theme from '../theme';
 
 class MainFooter extends React.Component {

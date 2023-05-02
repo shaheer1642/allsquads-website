@@ -7,7 +7,6 @@ import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { getCookie } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
-import { user_logged, authorizationCompleted } from '../../objects/user_login';
 import { relicBotSquadToString } from '../../functions';
 import theme from '../../theme';
 
