@@ -95,6 +95,7 @@ class MainLayout extends React.Component {
         <Fab style={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: Colors.orange[900]}} 
           onClick={() => {
             if (!user_logged) return eventHandler.emit('requestLogin', {})
+            if (!user_logged.ingame_name) return eventHandler.emit('requestVerify', {})
             eventHandler.emit('openChat', {})
           }}>
           <Chat />

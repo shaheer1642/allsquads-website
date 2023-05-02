@@ -198,7 +198,8 @@ class Squads extends React.Component {
         <Grid item xs={"auto"}>
           <Button 
             onClick={() => {
-              if (!user_logged) return eventHandler.emit('requestLogin', {})
+              if (!user_logged) return eventHandler.emit('requestLogin')
+              if (!user_logged.ingame_name) return eventHandler.emit('requestVerify')
               this.setState({createSquadOpen: true})
             }}
             variant="outlined" 

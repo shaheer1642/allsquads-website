@@ -79,7 +79,7 @@ class CreateSquad extends React.Component {
                 Create Squad
             </DialogTitle>
             <DialogContent>
-                {this.state.alertMessage ? <Alert severity={this.state.alertSeverity}>{this.state.alertMessage}</Alert>:<></>}
+                {this.state.alertMessage ? <Alert style={{marginBottom: '10px'}} severity={this.state.alertSeverity}>{this.state.alertMessage}</Alert>:<></>}
                 <DialogContentText>
                     Type below name of the new squad(s) seperated by new line
                 </DialogContentText>

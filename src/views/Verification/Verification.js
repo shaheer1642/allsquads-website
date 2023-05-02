@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import { user_logged } from '../../objects/user_login';
 import { getCookie } from '../../cookie_handler';
 import eventHandler from '../../event_handler/eventHandler';
+import theme from '../../theme';
 
 class Verification extends Component {
     constructor(props) {
         super(props);
         this.state = {  
             snackBarOpen: false,
-            dialogOpen: false,
+            verifyDialogOpen: false,
+            instructionDialogOpen: false,
             verificationCode: null,
             updatedIgn: false
         }
@@ -19,16 +21,18 @@ class Verification extends Component {
         this.checkVerification()
         eventHandler.addListener('userLogin/stateChange',this.checkVerification)
         eventHandler.addListener('verification/updatedIgn',this.handleIgnUpdate)
+        eventHandler.addListener('requestVerify',this.openVerifyDialog)
     }
 
     componentWillUnmount() {
         eventHandler.removeListener('userLogin/stateChange',this.checkVerification)
         eventHandler.removeListener('verification/updatedIgn',this.handleIgnUpdate)
+        eventHandler.removeListener('requestVerify',this.openVerifyDialog)
     }
 
     handleIgnUpdate = () => {
         this.closeSnackBar()
-        this.closeDialog()
+        this.closeInstructionDialog()
         this.setState({updatedIgn: true})
     }
 
@@ -36,8 +40,10 @@ class Verification extends Component {
         if (user_logged) {
             if (!user_logged.ingame_name) {
                 this.openSnackBar()
+                this.openVerifyDialog()
             } else {
                 this.closeSnackBar()
+                this.closeVerifyDialog()
             }
         }
     }
@@ -45,17 +51,23 @@ class Verification extends Component {
     componentDidUpdate() {
     }
 
-    closeSnackBar = () => {
-        this.setState({snackBarOpen: false})
-    }
-    closeDialog = () => {
-        this.setState({dialogOpen: false})
-    }
     openSnackBar = () => {
         this.setState({snackBarOpen: true})
     }
-    openDialog = () => {
-        this.fetchVerificationCode().then(() => this.setState({dialogOpen: true}))
+    closeSnackBar = () => {
+        this.setState({snackBarOpen: false})
+    }
+    openVerifyDialog = () => {
+        this.setState({verifyDialogOpen: true})
+    }
+    closeVerifyDialog = () => {
+        this.setState({verifyDialogOpen: false})
+    }
+    openInstructionDialog = () => {
+        this.fetchVerificationCode().then(() => this.setState({instructionDialogOpen: true}))
+    }
+    closeInstructionDialog = () => {
+        this.setState({instructionDialogOpen: false})
     }
 
     fetchVerificationCode = () => {
@@ -75,7 +87,7 @@ class Verification extends Component {
 
     action = (
         <React.Fragment>
-            <Button variant='outlined' color="primary" size="small" onClick={this.openDialog}>
+            <Button variant='outlined' color="primary" size="small" onClick={this.openInstructionDialog}>
                 Verify
             </Button>
         </React.Fragment>
@@ -85,12 +97,18 @@ class Verification extends Component {
         return (  
             <React.Fragment>
                 <Snackbar
-                    style={{color: 'yellow'}}
-                    open={this.state.dialogOpen ? false : this.state.snackBarOpen}
+                    open={this.state.instructionDialogOpen || this.state.verifyDialogOpen ? false : this.state.snackBarOpen}
                     message="Please verify your Warframe username in order to create/join squads"
                     action={this.action}
+                    ContentProps={{
+                      sx: {
+                        background: theme.palette.tertiary.main,
+                        color: 'white',
+                        fontSize: '16px'
+                      }
+                    }}
                 />
-                <Dialog onClose={this.closeDialog} open={this.state.dialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+                <Dialog onClose={this.closeInstructionDialog} open={this.state.instructionDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
                     <Grid container>
                         <Grid item xs={12}>
                                 {`Please follow these steps to verify your Warframe account:
@@ -117,6 +135,16 @@ class Verification extends Component {
                 </Dialog>
                 <Dialog onClose={() => this.setState({updatedIgn: false})} open={this.state.updatedIgn} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
                     <Typography>Your IGN has been updated to {user_logged?.ingame_name}</Typography>
+                </Dialog>
+                <Dialog onClose={this.closeVerifyDialog} open={this.state.verifyDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+                    <Grid container rowSpacing={'20px'}>
+                        <Grid item xs={12}>
+                            <Typography variant='h5'>Please verify your Warframe username in order to join/create squads</Typography>
+                        </Grid>
+                        <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                            <Button onClick={() => {this.closeVerifyDialog();this.openInstructionDialog()}} variant='contained' color='primary'>Verify</Button>
+                        </Grid>
+                    </Grid>
                 </Dialog>
             </React.Fragment>
         );

@@ -19,6 +19,7 @@ class SquadCard extends React.Component {
     super(props);
     this.state = {
       usersListLoading: true,
+      showMembers: false
     }
   }
 
@@ -41,22 +42,29 @@ class SquadCard extends React.Component {
 
   render() {
     return (
-        <Card elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.tertiary.main}` : '' }}>
+        <Card
+        onMouseEnter={() => this.setState({showMembers: true})}
+        onMouseLeave={() => this.setState({showMembers: false})}
+        sx={{
+          ':hover': {
+            boxShadow: 10, // theme.shadows[20]
+          },
+        }} elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.tertiary.main}` : '' }}>
           <CardContent> 
             <Grid container  direction={"row"} width={"100%"} justifyContent='start'>
               {/* Squad title */}
                 <Grid item xs={"auto"} display={'flex'}>
-                    {getImageFromSquadString(this.props.squad.squad_string) ? <img style={{marginRight: '10px'}} src={getImageFromSquadString(this.props.squad.squad_string)} height="42px"/> : <></>}
+                    {getImageFromSquadString(this.props.squad.squad_string) ? <img style={{marginRight: '10px'}} src={getImageFromSquadString(this.props.squad.squad_string)} height="36px"/> : <></>}
                 </Grid>
                 <Grid item xs={"auto"} style={{marginTop: '5px'}} alignItems='start'>
-                  <Typography variant="h5">
+                  <Typography variant="h6">
                     {convertUpper(this.props.squad.squad_string)}
                   </Typography>
                   {/* Squad members */}
                   {this.state.usersListLoading ? <CircularProgress /> :
                   <Typography variant="body">
                     <pre>
-                      { this.props.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
+                      { this.props.showMembers || this.state.showMembers ? this.props.squad.members.map(id => as_users_list[id]?.ingame_name).join('\n') : `${this.props.squad.members.length}/${this.props.squad.spots || 4}`}
                     </pre>
                   </Typography>
                   }
@@ -65,6 +73,7 @@ class SquadCard extends React.Component {
           </CardContent>
           <CardActions style={{justifyContent: 'center'}}>
             <ApiButton 
+              size='small'
               onClick={(e,callback) => {
                 socket.emit(`${this.props.squad.bot_type}/squads/addmember`,{
                   squad_id: this.props.squad.squad_id,
@@ -78,6 +87,7 @@ class SquadCard extends React.Component {
               color={this.props.squad.members.includes(user_logged?.user_id) ? 'warning' : 'success'}
               startIcon={this.props.squad.members.includes(user_logged?.user_id) ? <CancelOutlined /> : <DoneOutlined />}
               label={this.props.squad.members.includes(user_logged?.user_id) ? 'Leave Squad' : 'Join Squad'}
+              
             />
           </CardActions>
         </Card>

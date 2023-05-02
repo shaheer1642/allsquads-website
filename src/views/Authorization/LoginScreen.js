@@ -1,7 +1,6 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
-import { Link, Outlet } from "react-router-dom";
-import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Typography, TextField, Grid, Alert, CircularProgress} from '@mui/material';
+import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Typography, TextField, Grid, Alert, CircularProgress, Link} from '@mui/material';
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
@@ -23,7 +22,7 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: true,
       type: 'login',
       email: '',
       password: '',
@@ -41,7 +40,7 @@ class LoginScreen extends React.Component {
 
   componentWillUnmount() {
     eventHandler.removeListener('requestLogin', this.openLogin)
-    eventHandler.addListener('userLogin/loggedIn', this.closeLogin)
+    eventHandler.removeListener('userLogin/loggedIn', this.closeLogin)
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -64,6 +63,7 @@ class LoginScreen extends React.Component {
 
   LoginSubmit = (e) => {
     if (!this.state.email || !this.state.password) return this.setState({alertMessage: 'Fields cannot be empty'})
+    if (!this.isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
     this.setState({callingApi: true})
     fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/login/email?email=${this.state.email}&password=${this.state.password}&login_token=${getCookie('login_token')}`)
     .then((res) => res.json())
@@ -80,6 +80,7 @@ class LoginScreen extends React.Component {
   SignupSubmit = (e) => {
     if (!this.state.email || !this.state.password || !this.state.confirm_password) return this.setState({alertMessage: 'Fields cannot be empty'})
     if (this.state.password != this.state.confirm_password) return this.setState({alertMessage: 'Passwords Mismatch'})
+    if (!this.isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
     this.setState({callingApi: true})
     fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/signup/email?email=${this.state.email}&password=${this.state.password}&login_token=${getCookie('login_token')}`)
     .then((res) => res.json())
@@ -94,9 +95,14 @@ class LoginScreen extends React.Component {
     }).catch(console.error);
   }
 
+  isEmailValid = (str) => {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(str)) return false
+    else return true
+  }
+
   render() {
     return (
-      <Dialog onClose={this.closeLogin} open={this.state.open} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+      <Dialog onClose={this.closeLogin} open={this.state.open} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: 'primary.dark' } }}>
         {this.state.type == 'login' ? 
           <Grid container rowSpacing={'20px'}>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
@@ -109,26 +115,22 @@ class LoginScreen extends React.Component {
                 {this.state.alertMessage ? <Alert severity='warning'>{this.state.alertMessage}</Alert>:<></>}
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                <TextField color='tertiary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField fullWidth id="password" label="Password" type='password' value={this.state.password} variant="outlined" onChange={(e) => this.setState({password: e.target.value})}/>
+                <TextField color='tertiary' fullWidth id="password" label="Password" type='password' value={this.state.password} variant="outlined" onChange={(e) => this.setState({password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button variant='contained' onClick={this.LoginSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Login'}</Button>
+                <Button color='tertiary' variant='contained' onClick={this.LoginSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Login'}</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Typography>OR</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container columnSpacing={"20px"} display={'flex'} justifyContent={'center'}>
-                  <Grid item xs={'auto'} display={'flex'} justifyContent={'center'}>
-                    <Button variant='outlined' onClick={() => this.setState({type: 'signup'})}>Signup</Button>
-                  </Grid>
-                  <Grid item xs={'auto'} display={'flex'} justifyContent={'center'}>
-                    <Button variant='outlined' href={login_url}>Login Via Discord</Button>
-                  </Grid>
-                </Grid> 
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Button color='tertiary' variant='outlined' href={login_url} startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}>Login Via Discord</Button>
+              </Grid>
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Link style={{ cursor: 'pointer' }} color='tertiary.main' onClick={() => this.setState({type: 'signup'})}>Don't have an account? Sign up</Link>
               </Grid>
           </Grid>
           : 
@@ -140,29 +142,25 @@ class LoginScreen extends React.Component {
                 {this.state.alertMessage ? <Alert severity='warning'>{this.state.alertMessage}</Alert>:<></>}
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                <TextField color='tertiary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField fullWidth id="password" label="Password" variant="outlined" type='password' value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+                <TextField color='tertiary' fullWidth id="password" label="Password" variant="outlined" type='password' value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField fullWidth id="confirm-password" label="Confirm Password" variant="outlined" type='password' value={this.state.confirm_password} onChange={(e) => this.setState({confirm_password: e.target.value})}/>
+                <TextField color='tertiary' fullWidth id="confirm-password" label="Confirm Password" variant="outlined" type='password' value={this.state.confirm_password} onChange={(e) => this.setState({confirm_password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button variant='contained' onClick={this.SignupSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Signup'}</Button>
+                <Button color='tertiary' variant='contained' onClick={this.SignupSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Signup'}</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Typography>OR</Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container columnSpacing={"20px"} display={'flex'} justifyContent={'center'}>
-                  <Grid item xs={'auto'} display={'flex'} justifyContent={'center'}>
-                    <Button variant='outlined' onClick={() => this.setState({type: 'login'})}>Login</Button>
-                  </Grid>
-                  <Grid item xs={'auto'} display={'flex'} justifyContent={'center'}>
-                    <Button variant='outlined' href={login_url}>Login Via Discord</Button>
-                  </Grid>
-                </Grid> 
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Button color='tertiary' variant='outlined' href={login_url} startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}>Login Via Discord</Button>
+              </Grid>
+              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
+                <Link style={{ cursor: 'pointer' }} color='tertiary.main' onClick={() => this.setState({type: 'login'})}>Already have an account? Log in</Link>
               </Grid>
           </Grid>
         }

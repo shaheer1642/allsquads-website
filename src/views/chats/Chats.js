@@ -14,6 +14,7 @@ import { relicBotSquadToString } from '../../functions';
 import Squads from '../Squads/Squads';
 import ChatChannelMessages from './ChatChannelMessages';
 import theme from '../../theme';
+import playSound from '../../sound_player';
 
 class Chats extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class Chats extends React.Component {
     authorizationCompleted().then(() => this.fetchFilledSquads()).catch(console.error)
     
     eventHandler.addListener('openChat', this.openChat)
+    eventHandler.addListener('userLogin/stateChange', this.fetchFilledSquads)
     socket.addEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.addEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
     socket.addEventListener('squadbot/squadUpdate', this.squadUpdateListener)
@@ -40,6 +42,7 @@ class Chats extends React.Component {
 
   componentWillUnmount() {
     eventHandler.removeListener('openChat', this.openChat)
+    eventHandler.removeListener('userLogin/stateChange', this.fetchFilledSquads)
     socket.removeEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.removeEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
     socket.removeEventListener('squadbot/squadUpdate', this.squadUpdateListener)
@@ -56,6 +59,7 @@ class Chats extends React.Component {
   newSquadOpenedListener = (data) => {
     if (data.members.includes(user_logged?.user_id)) {
       this.fetchFilledSquads(() => {
+        playSound.newMessage()
         this.openChat({squad: data})
       })
     }
@@ -78,7 +82,7 @@ class Chats extends React.Component {
   }
 
   fetchFilledSquads = (callback) => {
-    if (!user_logged) return
+    if (!user_logged) return this.setState({filledSquads: [], loadingSquads: false})
     socket.emit('allsquads/user/filledSquads/fetch', {user_id: user_logged.user_id},(res) => {
       if (res.code == 200) {
         const filledSquads = res.data.map(squad => squad.bot_type == 'relicbot' ? ({...squad, squad_string: relicBotSquadToString(squad,true)}) : squad)

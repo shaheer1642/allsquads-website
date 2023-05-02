@@ -25,18 +25,21 @@ class ApiButton extends React.Component {
   render() {
     return (
         <Button 
+            style={this.props.style}
             disabled={this.state.callingApi ? true : false}
             variant={this.props.variant}
             color={this.props.color}
             startIcon={this.state.callingApi ? null : this.props.startIcon}
             onClick={(e) => {
                 if (!user_logged) return eventHandler.emit('requestLogin', {})
+                if (!user_logged.ingame_name) return eventHandler.emit('requestVerify', {})
                 this.setState({callingApi: true} , () => {
                     this.props.onClick(e, () => {
                         this.setState({callingApi: false})
                     })
                 })
             }}
+            size={this.props.size}
         >
             {this.state.callingApi ? <CircularProgress size='25px' color='secondary' /> : this.props.label}
         </Button>
