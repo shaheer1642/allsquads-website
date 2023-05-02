@@ -7,7 +7,7 @@ import {Menu, Settings} from '@mui/icons-material';
 import {socket,socketHasConnected} from '../websocket/socket'
 import LoginScreen from '../views/Authorization/LoginScreen';
 import { user_logged, authorizationCompleted } from '../objects/user_login';
-import Chats from '../views/chats/Chats';
+import Chats from '../views/Chats/Chats';
 import eventHandler from '../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
 import { withRouter } from '../withRouter';
