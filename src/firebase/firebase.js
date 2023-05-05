@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken } from "firebase/messaging";
-import { user_logged, authorizationCompleted } from '../objects/user_login';
+// import { this.props.user, authorizationCompleted } from '../objects/user_login';
 import { socket } from '../websocket/socket';
+import { getCookie } from '../cookie_handler';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAxDsMVypgqkrY31cJici7P-KsISDkb5-Y",
@@ -20,9 +21,7 @@ export const fetchToken = async (callback) => {
   return getToken(messaging, {vapidKey: process.env.REACT_APP_FIREBASE_FCM_VAPIDKEY}).then((currentToken) => {
     if (currentToken) {
       console.log('[Firebase FCM] Current token for client:', currentToken);
-      authorizationCompleted().then(() => {
-        socket.emit('allsquads/fcm/token/update', {user_id: user_logged?.user_id, fcm_token: currentToken})
-      }).catch(console.error)
+      socket.emit('allsquads/fcm/token/update', {login_token: getCookie('login_token'), fcm_token: currentToken})
       callback(true);
     } else {
       console.log('[Firebase FCM] No registration token available. Request permission to generate one.');

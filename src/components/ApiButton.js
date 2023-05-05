@@ -3,7 +3,6 @@ import React from 'react';
 import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Drawer, Grid, Typography, CircularProgress} from '@mui/material';
 import {socket,socketHasConnected} from '../websocket/socket'
 import eventHandler from '../event_handler/eventHandler';
-import { user_logged, authorizationCompleted } from '../objects/user_login';
 
 class ApiButton extends React.Component {
   constructor(props) {
@@ -31,8 +30,8 @@ class ApiButton extends React.Component {
             color={this.props.color}
             startIcon={this.state.callingApi ? null : this.props.startIcon}
             onClick={(e) => {
-                if (!user_logged) return eventHandler.emit('requestLogin', {})
-                if (!user_logged.ingame_name) return eventHandler.emit('requestVerify', {})
+                if (!this.props.user) return eventHandler.emit('requestLogin', {})
+                if (!this.props.user.ingame_name) return eventHandler.emit('requestVerify', {})
                 this.setState({callingApi: true} , () => {
                     this.props.onClick(e, () => {
                         this.setState({callingApi: false})

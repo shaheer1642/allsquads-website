@@ -38,4 +38,4 @@ class ChatChannel extends React.Component {
   }
 }
 
-export default ChatChannel;
+export default withHooksHOC(ChatChannel);

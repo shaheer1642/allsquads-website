@@ -2,20 +2,16 @@
 import React from 'react';
 import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Typography, TextField, Grid, Alert, CircularProgress, Link} from '@mui/material';
 import {socket,socketHasConnected} from '../../websocket/socket'
-import { convertUpper } from '../../functions';
-import {as_users_list, usersLoaded} from '../../objects/as_users_list';
+import { convertUpper, isEmailValid } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
-import { login_token } from '../../websocket/socket';
-import { getCookie } from '../../cookie_handler';
-import { attemptAuthenticate } from '../../objects/user_login';
-import ApiButton from '../../components/ApiButton';
+import { withHooksHOC } from '../../withHooksHOC';
 
 const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchParams({
     client_id: process.env.REACT_APP_ENVIRONMENT == 'dev' ? '878017655028723803' : '832682369831141417',
     redirect_uri: process.env.REACT_APP_SOCKET_URL+'api/allsquads/authorization/discordOAuth2',
     response_type: 'code',
     scope:'identify email guilds',
-    state: `${login_token}_${process.env.REACT_APP_SERVER_ADDRESS}`
+    state: `${process.env.REACT_APP_SERVER_ADDRESS}`
 }).toString();
 
 class LoginScreen extends React.Component {
@@ -63,14 +59,13 @@ class LoginScreen extends React.Component {
 
   LoginSubmit = (e) => {
     if (!this.state.email || !this.state.password) return this.setState({alertMessage: 'Fields cannot be empty'})
-    if (!this.isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
+    if (!isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
     this.setState({callingApi: true})
-    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/login/email?email=${this.state.email}&password=${this.state.password}&login_token=${getCookie('login_token')}`)
-    .then((res) => res.json())
+    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/login/email?email=${this.state.email}&password=${this.state.password}`, {credentials: 'include'}).then((res) => res.json())
     .then((res) => {
         this.setState({callingApi: false})
         if (res.code == 200) {
-          attemptAuthenticate()
+          this.props.login(() => this.closeLogin())
         } else {
           return this.setState({alertMessage: res.message || 'Error occured'})
         }
@@ -80,25 +75,21 @@ class LoginScreen extends React.Component {
   SignupSubmit = (e) => {
     if (!this.state.email || !this.state.password || !this.state.confirm_password) return this.setState({alertMessage: 'Fields cannot be empty'})
     if (this.state.password != this.state.confirm_password) return this.setState({alertMessage: 'Passwords Mismatch'})
-    if (!this.isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
+    if (!isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
     this.setState({callingApi: true})
-    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/signup/email?email=${this.state.email}&password=${this.state.password}&login_token=${getCookie('login_token')}`)
+    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/signup/email?email=${this.state.email}&password=${this.state.password}`, {credentials: 'include'})
     .then((res) => res.json())
     .then((res) => {
         this.setState({callingApi: false})
         console.log(res)
         if (res.code == 200) {
-          attemptAuthenticate()
+          this.props.login()
         } else {
           return this.setState({alertMessage: res.message || 'Error occured'})
         }
     }).catch(console.error);
   }
 
-  isEmailValid = (str) => {
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(str)) return false
-    else return true
-  }
 
   render() {
     return (
@@ -169,4 +160,4 @@ class LoginScreen extends React.Component {
   }
 }
 
-export default LoginScreen;
+export default withHooksHOC(LoginScreen);

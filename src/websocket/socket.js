@@ -3,15 +3,8 @@ import * as uuid from 'uuid';
 import { getCookie, putCookie } from '../cookie_handler';
 import eventHandler from '../event_handler/eventHandler';
 
-const login_token = getCookie('login_token', uuid.v4())
-document.cookie = `login_token=${login_token};path=/;max-age=2592000`;
-
 const socket = io(process.env.REACT_APP_SOCKET_URL, {
     transports : ['websocket'],
-    auth: {
-        token: login_token,
-        conn_type: 'web-user'
-    }
 });
 
 socket.on("connect", () => {
@@ -33,19 +26,7 @@ async function socketHasConnected() {
     })
 }
 
-// async function generateNewToken() {
-//     document.cookie = `login_token=${uuid.v4()};path=/`;
-//     //socket.emit('restartConn')
-//     socket.auth.token = getCookie('login_token')
-//     eventHandler.emit('login/auth', {})
-//     await socketHasConnected()
-//     socket.disconnect()
-//     socket.connect()
-// }
-
 export {
-    login_token,
     socket,
     socketHasConnected,
-    // generateNewToken,
 }

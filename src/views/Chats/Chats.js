@@ -8,13 +8,14 @@ import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { getCookie } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
-import { user_logged, authorizationCompleted } from '../../objects/user_login';
+// import { this.props.user, authorizationCompleted } from '../../objects/user_login';
 import ChatChannel from './ChatChannel';
 import { relicBotSquadToString } from '../../functions';
 import Squads from '../Squads/Squads';
 import ChatChannelMessages from './ChatChannelMessages';
 import theme from '../../theme';
 import playSound from '../../sound_player';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class Chats extends React.Component {
   constructor(props) {
@@ -30,10 +31,9 @@ class Chats extends React.Component {
   }
 
   componentDidMount() {
-    authorizationCompleted().then(() => this.fetchFilledSquads()).catch(console.error)
-    
     eventHandler.addListener('openChat', this.openChat)
-    eventHandler.addListener('userLogin/stateChange', this.fetchFilledSquads)
+    eventHandler.addListener('user/login', this.fetchFilledSquads)
+
     socket.addEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.addEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
     socket.addEventListener('squadbot/squadUpdate', this.squadUpdateListener)
@@ -42,7 +42,8 @@ class Chats extends React.Component {
 
   componentWillUnmount() {
     eventHandler.removeListener('openChat', this.openChat)
-    eventHandler.removeListener('userLogin/stateChange', this.fetchFilledSquads)
+    eventHandler.removeListener('user/login', this.fetchFilledSquads)
+
     socket.removeEventListener('relicbot/squads/opened', this.newSquadOpenedListener)
     socket.removeEventListener('squadbot/squads/opened', this.newSquadOpenedListener)
     socket.removeEventListener('squadbot/squadUpdate', this.squadUpdateListener)
@@ -57,7 +58,7 @@ class Chats extends React.Component {
   }
 
   newSquadOpenedListener = (data) => {
-    if (data.members.includes(user_logged?.user_id)) {
+    if (data.members.includes(this.props.user?.user_id)) {
       this.fetchFilledSquads(() => {
         playSound.newMessage()
         this.openChat({squad: data})
@@ -82,8 +83,8 @@ class Chats extends React.Component {
   }
 
   fetchFilledSquads = (callback) => {
-    if (!user_logged) return this.setState({filledSquads: [], loadingSquads: false})
-    socket.emit('allsquads/user/filledSquads/fetch', {user_id: user_logged.user_id},(res) => {
+    if (!this.props.user) return this.setState({filledSquads: [], loadingSquads: false})
+    socket.emit('allsquads/user/filledSquads/fetch', {user_id: this.props.user.user_id},(res) => {
       if (res.code == 200) {
         const filledSquads = res.data.map(squad => squad.bot_type == 'relicbot' ? ({...squad, squad_string: relicBotSquadToString(squad,true)}) : squad)
         this.setState({
@@ -151,4 +152,4 @@ class Chats extends React.Component {
   }
 }
 
-export default Chats;
+export default withHooksHOC(Chats);

@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab, Grid, Link} from '@mui/material';
-import { withRouter } from '../../withRouter';
+import { withHooksHOC } from '../../withHooksHOC';
 import terms_of_service from '../../terms-of-service.txt'
 
 class TermsOfService extends React.Component {
@@ -52,4 +52,4 @@ class TermsOfService extends React.Component {
   }
 }
 
-export default withRouter(TermsOfService);
+export default withHooksHOC(TermsOfService);

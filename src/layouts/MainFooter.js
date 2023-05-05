@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { Typography, Grid, Link} from '@mui/material';
-import { withRouter } from '../withRouter';
+import { withHooksHOC } from '../withHooksHOC';
 import theme from '../theme';
 
 class MainFooter extends React.Component {
@@ -74,4 +74,4 @@ class MainFooter extends React.Component {
   }
 }
 
-export default withRouter(MainFooter);
+export default withHooksHOC(MainFooter);

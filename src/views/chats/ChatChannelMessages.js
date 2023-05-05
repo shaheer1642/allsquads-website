@@ -8,7 +8,7 @@ import { convertUpper, sortCaseInsensitive } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import { getCookie, } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
-import { user_logged, authorizationCompleted } from '../../objects/user_login';
+// import { this.props.user, authorizationCompleted } from '../../objects/user_login';
 import * as uuid from 'uuid';
 import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
@@ -50,7 +50,7 @@ class ChatChannelMessages extends React.Component {
 
   squadMessageListenerInsert = (data) => {
     if (data.squad_id != this.props.squad.squad_id) return
-    if (data.user_id != user_logged.user_id) playSound.newMessage()
+    if (data.user_id != this.props.user.user_id) playSound.newMessage()
     return this.setState({
       chatsArr: [...this.state.chatsArr, data]
     })
@@ -74,7 +74,7 @@ class ChatChannelMessages extends React.Component {
       squad_id: this.props.squad.squad_id, 
       thread_id: 'web-111', 
       message: this.state.newMessage, 
-      user_id: user_logged.user_id
+      user_id: this.props.user.user_id
     }, (res) => {
       this.setState({
         newMessage: ''
@@ -86,7 +86,7 @@ class ChatChannelMessages extends React.Component {
   }
 
   onBecomeHostClick = (e, callback) => {
-    socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, user_id: user_logged.user_id},(res) => {
+    socket.emit(`${this.props.squad.bot_type}/squads/selecthost`,{squad_id: this.props.squad.squad_id, user_id: this.props.user.user_id},(res) => {
       if (res.code != 200) {
         console.log('[ChatChannelMessages.onBecomeHostClick] error',res)
       }
@@ -156,4 +156,4 @@ function getTimestamp(timestamp) {
   `[${new Date(timestamp).toLocaleDateString()} ${new Date(timestamp).toLocaleTimeString()}]`
 }
 
-export default ChatChannelMessages;
+export default withHooksHOC(ChatChannelMessages);

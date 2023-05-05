@@ -6,9 +6,10 @@ import {ControlPoint} from '@mui/icons-material'
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { relicBotSquadToString } from '../../functions';
 import SquadCard from './SquadCard';
-import { user_logged } from '../../objects/user_login';
+// import { this.props.user } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import theme from '../../theme';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class CreateSquad extends React.Component {
   constructor(props) {
@@ -34,12 +35,13 @@ class CreateSquad extends React.Component {
   }
 
   createNewSquad = () => {
-    if (!user_logged) return eventHandler.emit('requestLogin', {})
+    if (!this.props.user) return eventHandler.emit('requestLogin')
+    if (!this.props.user.ingame_name) return eventHandler.emit('requestVerify')
     this.setState({
         loading: true
     }, () => {
         const bot_type = ['lith','meso','neo','axi'].some(value => this.state.squadName.match(value)) ? 'relicbot' : 'squadbot' 
-        socket.emit(`${bot_type}/squads/create`, {user_id: user_logged.user_id, message: this.state.squadName, channel_id: 'web-111', merge_squad: false}, (responses) => {
+        socket.emit(`${bot_type}/squads/create`, {user_id: this.props.user.user_id, message: this.state.squadName, channel_id: 'web-111', merge_squad: false}, (responses) => {
             var msg = ''
             responses.forEach(res => {
                 if (res.code != 200)
@@ -93,4 +95,4 @@ class CreateSquad extends React.Component {
   }
 }
 
-export default CreateSquad;
+export default withHooksHOC(CreateSquad);

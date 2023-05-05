@@ -51,4 +51,4 @@ class CookieConsent extends React.Component {
   }
 }
 
-export default CookieConsent;
+export default withHooksHOC(CookieConsent);

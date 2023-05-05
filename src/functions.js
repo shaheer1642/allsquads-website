@@ -140,4 +140,14 @@ function getCookie(name) {
     return document.cookie.split('; ').find((row) => row.startsWith(`${name}=`))?.split('=')[1]
 }
 
-module.exports = {dynamicSort,dynamicSortDesc,msToTime,msToFullTime,getRandomColor,embedScore,convertUpper,getTodayStartMs,getWeekStartMs,getMonthStartMs,calcArrAvg,relicBotSquadToString,getCookie,sortCaseInsensitive};
+function isEmailValid(str) {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(str)) return false
+    else return true
+}
+
+module.exports = {
+    dynamicSort,dynamicSortDesc,msToTime,msToFullTime,getRandomColor,
+    embedScore,convertUpper,getTodayStartMs,getWeekStartMs,getMonthStartMs,
+    calcArrAvg,relicBotSquadToString,getCookie,sortCaseInsensitive,
+    isEmailValid
+};

@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab, Grid, Link} from '@mui/material';
-import { withRouter } from '../../withRouter';
+import { withHooksHOC } from '../../withHooksHOC';
 import privacy_policy from '../../privacy-policy.txt'
 
 class PrivacyPolicy extends React.Component {
@@ -52,4 +52,4 @@ class PrivacyPolicy extends React.Component {
   }
 }
 
-export default withRouter(PrivacyPolicy);
+export default withHooksHOC(PrivacyPolicy);

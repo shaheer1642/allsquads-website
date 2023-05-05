@@ -2,11 +2,11 @@
 import React from 'react';
 import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Drawer, Grid, Typography, CircularProgress, FormControlLabel, Checkbox} from '@mui/material';
 import {ArrowBack} from '@mui/icons-material'
-import { withRouter } from '../../withRouter';
+import { withHooksHOC } from '../../withHooksHOC';
 import {config, updateConfig} from '../../config';
 import { socket } from '../../websocket/socket';
 import { convertUpper } from '../../functions';
-import { user_logged } from '../../objects/user_login';
+// import { this.props.user } from '../../objects/user_login';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Profile extends React.Component {
 
   componentDidMount() {
     console.log(this.username)
-    socket.emit('allsquads/user/statistics/fetch', {identifier: this.username, user_id: user_logged?.user_id}, (res) => {
+    socket.emit('allsquads/user/statistics/fetch', {identifier: this.username, user_id: this.props.user?.user_id}, (res) => {
       console.log(res)
       if (res.code == 200) {
         this.setState({
@@ -188,4 +188,4 @@ class Profile extends React.Component {
   }
 }
 
-export default withRouter(Profile);
+export default withHooksHOC(Profile);

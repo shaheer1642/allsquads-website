@@ -1,7 +1,7 @@
 /* eslint eqeqeq: "off", no-unused-vars: "off" */
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Button, CircularProgress, Fab, Grid, Link} from '@mui/material';
-import { withRouter } from '../../withRouter';
+import { withHooksHOC } from '../../withHooksHOC';
 import privacy_policy from '../../privacy-policy.txt'
 import { socket } from '../../websocket/socket';
 
@@ -61,4 +61,4 @@ class FAQ extends React.Component {
   }
 }
 
-export default withRouter(FAQ);
+export default withHooksHOC(FAQ);

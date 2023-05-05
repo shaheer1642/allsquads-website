@@ -7,9 +7,10 @@ import {socket,socketHasConnected} from '../../websocket/socket'
 import { dynamicSort, relicBotSquadToString } from '../../functions';
 import SquadCard from './SquadCard';
 import CreateSquad from './CreateSquad';
-import { user_logged } from '../../objects/user_login';
+// import { this.props.user } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import ApiButton from '../../components/ApiButton';
+import { withHooksHOC } from '../../withHooksHOC';
 
 
 class Squads extends React.Component {
@@ -135,11 +136,11 @@ class Squads extends React.Component {
 
   leaveAllSquads = (e, callback) => {
     socket.emit(`squadbot/squads/leaveall`,{
-      user_id: user_logged.user_id,
+      user_id: this.props.user.user_id,
     }, (res) => {
       if (res.code != 200) console.log('[Squads.leaveAllSquads] query 1 error',res)
       socket.emit(`relicbot/squads/leave`,{
-        user_id: user_logged.user_id,
+        user_id: this.props.user.user_id,
         tier: 'all',
       }, (res) => {
         if (res.code != 200) console.log('[Squads.leaveAllSquads] query 2 error',res)
@@ -198,8 +199,8 @@ class Squads extends React.Component {
         <Grid item xs={"auto"}>
           <Button 
             onClick={() => {
-              if (!user_logged) return eventHandler.emit('requestLogin')
-              if (!user_logged.ingame_name) return eventHandler.emit('requestVerify')
+              if (!this.props.user) return eventHandler.emit('requestLogin')
+              if (!this.props.user.ingame_name) return eventHandler.emit('requestVerify')
               this.setState({createSquadOpen: true})
             }}
             variant="outlined" 
@@ -208,7 +209,7 @@ class Squads extends React.Component {
               Create Squad
           </Button>
         </Grid>
-        {this.state.squadsArr.some(squad => squad.members.includes(user_logged?.user_id)) ? 
+        {this.state.squadsArr.some(squad => squad.members.includes(this.props.user?.user_id)) ? 
           <Grid item xs={"auto"}>
           <ApiButton 
             onClick={this.leaveAllSquads}
@@ -239,4 +240,4 @@ class Squads extends React.Component {
   }
 }
 
-export default Squads;
+export default withHooksHOC(Squads);

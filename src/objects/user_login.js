@@ -8,9 +8,8 @@ var attempted_authorize = false
 attemptAuthenticate()
 
 function attemptAuthenticate() {
-    console.log('attempting authentication url=',`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/authenticate?login_token=${getCookie('login_token')}`)
     attempted_authorize = false
-    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/authenticate?login_token=${getCookie('login_token')}`)
+    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/authenticate`,{credentials: 'include'})
     .then((res) => res.json())
     .then((res) => {
         console.log('attemptAuthenticate',res)

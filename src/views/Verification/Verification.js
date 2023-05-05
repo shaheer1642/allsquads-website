@@ -1,9 +1,11 @@
 import { Snackbar, Button, IconButton, Dialog, Grid, Typography } from '@mui/material';
 import React, { Component } from 'react';
-import { user_logged } from '../../objects/user_login';
+// import { this.props.user } from '../../objects/user_login';
 import { getCookie } from '../../cookie_handler';
 import eventHandler from '../../event_handler/eventHandler';
 import theme from '../../theme';
+import { socket } from '../../websocket/socket';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class Verification extends Component {
     constructor(props) {
@@ -18,27 +20,28 @@ class Verification extends Component {
     }
 
     componentDidMount() {
-        this.checkVerification()
-        eventHandler.addListener('userLogin/stateChange',this.checkVerification)
-        eventHandler.addListener('verification/updatedIgn',this.handleIgnUpdate)
+        eventHandler.addListener('user/login',this.checkVerification)
+        eventHandler.addListener('user/updatedIGN',this.handleIgnUpdate)
         eventHandler.addListener('requestVerify',this.openVerifyDialog)
     }
 
     componentWillUnmount() {
-        eventHandler.removeListener('userLogin/stateChange',this.checkVerification)
-        eventHandler.removeListener('verification/updatedIgn',this.handleIgnUpdate)
+        eventHandler.removeListener('user/login',this.checkVerification)
+        eventHandler.removeListener('user/updatedIGN',this.handleIgnUpdate)
         eventHandler.removeListener('requestVerify',this.openVerifyDialog)
     }
 
     handleIgnUpdate = () => {
+        console.log('handleIgnUpdate called')
         this.closeSnackBar()
         this.closeInstructionDialog()
         this.setState({updatedIgn: true})
     }
 
     checkVerification = () => {
-        if (user_logged) {
-            if (!user_logged.ingame_name) {
+        console.log('checkVerification called',this.props.user)
+        if (this.props.user) {
+            if (!this.props.user.ingame_name) {
                 this.openSnackBar()
                 this.openVerifyDialog()
             } else {
@@ -73,7 +76,7 @@ class Verification extends Component {
     fetchVerificationCode = () => {
         return new Promise((resolve, reject) => {
             if (this.state.verificationCode) return resolve()
-            fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/verification/ign/fetchCode?login_token=${getCookie('login_token')}`)
+            fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/verification/ign/fetchCode`, {credentials: 'include'})
             .then((res) => res.json())
             .then((res) => {
                 if (res.code == 200) {
@@ -134,7 +137,7 @@ class Verification extends Component {
                     </Grid>
                 </Dialog>
                 <Dialog onClose={() => this.setState({updatedIgn: false})} open={this.state.updatedIgn} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
-                    <Typography>Your IGN has been updated to {user_logged?.ingame_name}</Typography>
+                    <Typography>Your IGN has been updated to {this.props.user?.ingame_name}</Typography>
                 </Dialog>
                 <Dialog onClose={this.closeVerifyDialog} open={this.state.verifyDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
                     <Grid container rowSpacing={'20px'}>
@@ -151,4 +154,4 @@ class Verification extends Component {
     }
 }
  
-export default Verification;
+export default withHooksHOC(Verification);
