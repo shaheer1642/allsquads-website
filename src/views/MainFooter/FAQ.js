@@ -33,7 +33,7 @@ class FAQ extends React.Component {
             {this.state.faqs.map(faq => (
                 <React.Fragment>
                     <Typography>{'\u200b'}</Typography>
-                    <Typography variant='h5' color='tertiary.main'>{`${headCounter++}. ${faq.title.en}`}</Typography>
+                    <Typography variant='h5' color='secondary.main'>{`${headCounter++}. ${faq.title.en}`}</Typography>
                     <Typography>{'\u200b'}</Typography>
                     {faq.body.en.split('\r\n').map(line => <Typography>{line?.replace(/\*/g,'') || '\u200b'}</Typography>)}
                     {faq.image_url?.en? <img src={faq.image_url.en} style={{maxWidth: '100%'}} /> : <></>}

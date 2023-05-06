@@ -106,22 +106,22 @@ class LoginScreen extends React.Component {
                 {this.state.alertMessage ? <Alert severity='warning'>{this.state.alertMessage}</Alert>:<></>}
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField color='tertiary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                <TextField color='secondary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField color='tertiary' fullWidth id="password" label="Password" type='password' value={this.state.password} variant="outlined" onChange={(e) => this.setState({password: e.target.value})}/>
+                <TextField color='secondary' fullWidth id="password" label="Password" type='password' value={this.state.password} variant="outlined" onChange={(e) => this.setState({password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button color='tertiary' variant='contained' onClick={this.LoginSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Login'}</Button>
+                <Button color='secondary' variant='contained' onClick={this.LoginSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Login'}</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Typography>OR</Typography>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button color='tertiary' variant='outlined' href={login_url} startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}>Login Via Discord</Button>
+                <Button color='secondary' variant='outlined' href={login_url} startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}>Login Via Discord</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Link style={{ cursor: 'pointer' }} color='tertiary.main' onClick={() => this.setState({type: 'signup'})}>Don't have an account? Sign up</Link>
+                <Link style={{ cursor: 'pointer' }} color='secondary.main' onClick={() => this.setState({type: 'signup'})}>Don't have an account? Sign up</Link>
               </Grid>
           </Grid>
           : 
@@ -133,19 +133,19 @@ class LoginScreen extends React.Component {
                 {this.state.alertMessage ? <Alert severity='warning'>{this.state.alertMessage}</Alert>:<></>}
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField color='tertiary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+                <TextField color='secondary' fullWidth id="email" label="Email" variant="outlined" value={this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField color='tertiary' fullWidth id="password" label="Password" variant="outlined" type='password' value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
+                <TextField color='secondary' fullWidth id="password" label="Password" variant="outlined" type='password' value={this.state.password} onChange={(e) => this.setState({password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <TextField color='tertiary' fullWidth id="confirm-password" label="Confirm Password" variant="outlined" type='password' value={this.state.confirm_password} onChange={(e) => this.setState({confirm_password: e.target.value})}/>
+                <TextField color='secondary' fullWidth id="confirm-password" label="Confirm Password" variant="outlined" type='password' value={this.state.confirm_password} onChange={(e) => this.setState({confirm_password: e.target.value})}/>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button color='tertiary' variant='contained' onClick={this.SignupSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Signup'}</Button>
+                <Button color='secondary' variant='contained' onClick={this.SignupSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Signup'}</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Link style={{ cursor: 'pointer' }} color='tertiary.main' onClick={() => this.setState({type: 'login'})}>Already have an account? Log in</Link>
+                <Link style={{ cursor: 'pointer' }} color='secondary.main' onClick={() => this.setState({type: 'login'})}>Already have an account? Log in</Link>
               </Grid>
           </Grid>
         }

@@ -4,17 +4,14 @@ const theme = {
     palette: {
         mode: 'dark',
         primary: {
-          main: '#103d4e',
+          main: '#092936',
+          light: '#274d5c',
+          dark: '#0a1c23'
         },
         secondary: {
-          main: '#e64740',
-        },
-        tertiary: {
           main: '#ff6400',
-        },
-        background: {
-          default: '#0a1c23',
-          paper: '#ff6400',
+          light: '#FD934C',
+          dark: '#FC6500',
         },
     },
     components: {

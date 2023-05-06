@@ -79,22 +79,22 @@ class Settings extends React.Component {
     const PanelAccountManagement = (
       <React.Fragment>
         <Grid item xs={'auto'}>
-          <TextField disabled = {this.props.user?.email ? true : false}  color='tertiary' label={this.props.user?.email ? 'Email' : 'Set account email'} value={this.props.user?.email ? this.props.user?.email:this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
+          <TextField disabled = {this.props.user?.email ? true : false}  color='secondary' label={this.props.user?.email ? 'Email' : 'Set account email'} value={this.props.user?.email ? this.props.user?.email:this.state.email} onChange={(e) => this.setState({email: e.target.value})}/>
         </Grid>
         <Grid item xs={'auto'}>
-          <TextField disabled color='tertiary' label='IGN' defaultValue={this.props.user?.ingame_name}/>
+          <TextField disabled color='secondary' label='IGN' defaultValue={this.props.user?.ingame_name}/>
         </Grid>
         <Grid item xs={12}></Grid>
         <Grid item xs={'auto'}>
-          {this.props.user?.password ? <></> : <TextField color='tertiary' label='Set account password' onChange={(e) => this.setState({password: e.target.value})} value={this.state.password}/>}
+          {this.props.user?.password ? <></> : <TextField color='secondary' label='Set account password' onChange={(e) => this.setState({password: e.target.value})} value={this.state.password}/>}
         </Grid>
         <Grid item xs={'auto'}>
-          {this.props.user?.password ? <></> : <TextField color='tertiary' label='Confirm password' onChange={(e) => this.setState({confirm_password: e.target.value})} value={this.state.confirm_password}/>}
+          {this.props.user?.password ? <></> : <TextField color='secondary' label='Confirm password' onChange={(e) => this.setState({confirm_password: e.target.value})} value={this.state.confirm_password}/>}
         </Grid>
         <Grid item xs={12}>
           <Button 
             disabled = {this.props.user?.discord_id ? true : false} 
-            color='tertiary' variant='outlined' 
+            color='secondary' variant='outlined' 
             startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}
             href={this.props.user?.discord_id ? null : 'https://discord.com/api/oauth2/authorize?' + new URLSearchParams({
               client_id: process.env.REACT_APP_ENVIRONMENT == 'dev' ? '878017655028723803' : '832682369831141417',
@@ -109,7 +109,7 @@ class Settings extends React.Component {
         </Grid>
         {!this.props.user?.email ?
           <Grid item xs={12}>
-            <Button color='tertiary' variant='contained' onClick={() => this.updateEmailPassword()}>
+            <Button color='secondary' variant='contained' onClick={() => this.updateEmailPassword()}>
               {this.state?.callingApi ? <CircularProgress /> : 'Save Changes'}
             </Button>
           </Grid>:<></>
@@ -130,11 +130,11 @@ class Settings extends React.Component {
         <Grid item xs={12} justifyContent="center" display={"flex"}>
           <Typography variant='h3'>Settings</Typography>
         </Grid>
-        <Grid item xs={3} xl={2} sx={{ backgroundColor: 'primary.main', minHeight: '50vh', paddingTop: '20px'}}>
+        <Grid item xs={3} xl={2} sx={{ backgroundColor: 'primary.light', boxShadow: '20px', minHeight: '50vh', paddingTop: '20px'}}>
           <MenuList disablePadding>
             {PanelsList.map((panel, index) => (
-              <MenuItem key={panel.title} onClick={() => this.setState({activeMenu: index})} sx={{backgroundColor: this.state.activeMenu == index ? 'primary.light':''}}>
-                <Typography variant="h6" color="text.secondary">
+              <MenuItem key={panel.title} onClick={() => this.setState({activeMenu: index})}>
+                <Typography variant="h6" sx={{color: this.state.activeMenu == index ? 'secondary.dark' : 'text.secondary'}}>
                   {panel.title}
                 </Typography>
               </MenuItem>
@@ -144,7 +144,7 @@ class Settings extends React.Component {
             </MenuItem>
           </MenuList>
         </Grid>
-        <Grid item xs={9} xl={10} sx={{backgroundColor: 'primary.dark', minHeight: '50vh', padding: '20px'}}>
+        <Grid item xs={9} xl={10} sx={{backgroundColor: 'primary.main', minHeight: '50vh', padding: '20px'}}>
           <Grid container rowSpacing={'10px'} columnSpacing={'10px'}>
             <Grid item xs={12}>
               <Typography variant="h4" color="text.secondary">

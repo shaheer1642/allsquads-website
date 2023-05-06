@@ -29,7 +29,7 @@ class ChatChannel extends React.Component {
 
   render() {
     return (
-      <Card elevation={3} onClick={this.props.onClick} style={{background: theme.palette.background.default}}>
+      <Card elevation={3} onClick={this.props.onClick} sx={{backgroundColor: 'primary.dark',':hover':{cursor: 'pointer', backgroundColor: 'primary.light'}}}>
         <CardContent>
           <Typography variant='h5'>{convertUpper(this.props.squad.squad_string)}</Typography>
           <Typography style={{fontSize: '16px'}}></Typography>

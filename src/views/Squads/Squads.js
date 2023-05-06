@@ -231,7 +231,7 @@ class Squads extends React.Component {
           {this.state.squadsRefreshing ? 'Refreshing Squads...':''}
         </Grid>
         <Grid item xs={12}></Grid>
-        {this.state.squadsLoading ? <Grid item xs={12}><CircularProgress color="tertiary"/></Grid>:
+        {this.state.squadsLoading ? <Grid item xs={12}><CircularProgress color='secondary'/></Grid>:
           this.state.squadsArr.filter(this.filterSquads).map((squad,index) => {
             return (
               <Grid item xs={"auto"} key={index}>

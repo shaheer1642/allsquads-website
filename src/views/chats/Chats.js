@@ -105,7 +105,7 @@ class Chats extends React.Component {
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         PaperProps={{
-          sx: { backgroundColor: theme.palette.background.default, 
+          sx: { backgroundColor: 'primary.dark', 
             '@media (min-width: 0px)': {
               maxWidth: '80%'
             },
@@ -128,14 +128,14 @@ class Chats extends React.Component {
           {
             this.state.viewChat != null ?
             <Grid item xs={"auto"}>
-              <Button color='tertiary' onClick={() => this.setState({viewChat: null})}><ArrowBack /></Button>
+              <Button color='secondary' onClick={() => this.setState({viewChat: null})}><ArrowBack /></Button>
             </Grid> : <></>
           }
           <Grid item xs={this.state.viewChat == null ? 12 : 'auto'} width="100%" style={{display: 'flex', justifyContent: 'center'}}>
             <Typography variant='h5'>{this.state.viewChat == null ? 'Squad Chats' : convertUpper(this.state.filledSquads.filter(squad => squad.squad_id == this.state.viewChat)?.[0]?.squad_string)}</Typography>
           </Grid>
           <Grid item xs={12}></Grid>
-          {this.state.loadingSquads ? <CircularProgress color="tertiary"/>
+          {this.state.loadingSquads ? <CircularProgress color='secondary'/>
           :
             this.state.viewChat == null ?
               this.state.filledSquads.map((squad,index) => 

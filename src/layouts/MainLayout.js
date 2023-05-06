@@ -57,7 +57,7 @@ class MainLayout extends React.Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <AppBar position="static">
+          <AppBar position="static" sx={{backgroundColor: 'secondary.main'}}>
             <Toolbar>
                 <Typography 
                   variant="h6"
@@ -69,7 +69,7 @@ class MainLayout extends React.Component {
                     mr: 2,
                     display: { xs: 'flex' },
                     textDecoration: 'none',
-                    color: 'inherit'
+                    color: 'text.primary'
                   }}
                 >
                   Warframe Squads
@@ -97,7 +97,7 @@ class MainLayout extends React.Component {
             </Toolbar>
           </AppBar>
         </Grid>
-        <Grid item xs={12} minHeight='80vh'>
+        <Grid item xs={12} minHeight='80vh' sx={{backgroundColor: 'primary.dark'}}>
           < Outlet />
         </Grid>
         <Grid item xs={12}>
@@ -105,7 +105,7 @@ class MainLayout extends React.Component {
         </Grid>
         < LoginScreen />
         < Chats />
-        <Fab style={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: Colors.orange[900]}} 
+        <Fab sx={{position: 'fixed', right: '20px', bottom: '20px', color: 'white',backgroundColor: 'secondary.main', ':hover': {backgroundColor: 'secondary.light'}}} 
           onClick={() => {
             if (!this.props.user) return eventHandler.emit('requestLogin', {})
             if (!this.props.user.ingame_name) return eventHandler.emit('requestVerify', {})

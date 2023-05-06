@@ -24,7 +24,7 @@ class MainFooter extends React.Component {
   render() {
     return (
       <Grid container 
-        style={{backgroundColor: theme.palette.primary.main, borderTop: `2px solid ${theme.palette.tertiary.main}`, padding: '10px'}} 
+        sx={{backgroundColor: 'primary.main', borderTop: `2px solid ${theme.palette.secondary.main}`, padding: '10px'}} 
         alignItems='center' 
         justifyContent='center'
         rowSpacing={'10px'}
@@ -35,25 +35,25 @@ class MainFooter extends React.Component {
         </Grid>
         <Grid item xs={12}></Grid> */}
         <Grid item xs={'auto'}>
-          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('faq');window.scrollTo({ top: 0, behavior: "smooth" })}}>FAQ</Link>
+          <Link style={{ cursor: 'pointer' }} color={'secondary.main'} onClick={() => {this.props.navigate('faq');window.scrollTo({ top: 0, behavior: "smooth" })}}>FAQ</Link>
         </Grid>
         <Grid item xs={'auto'}>|</Grid>
         <Grid item xs={'auto'}>
-          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('terms-of-service');window.scrollTo({ top: 0, behavior: "smooth" })}}>Terms of Service</Link>
+          <Link style={{ cursor: 'pointer' }} color={'secondary.main'} onClick={() => {this.props.navigate('terms-of-service');window.scrollTo({ top: 0, behavior: "smooth" })}}>Terms of Service</Link>
         </Grid>
         <Grid item xs={'auto'}>|</Grid>
         <Grid item xs={'auto'}>
-          <Link style={{ cursor: 'pointer' }} color={'tertiary.main'} onClick={() => {this.props.navigate('privacy-policy');window.scrollTo({ top: 0, behavior: "smooth" })}}>Privacy Policy</Link>
+          <Link style={{ cursor: 'pointer' }} color={'secondary.main'} onClick={() => {this.props.navigate('privacy-policy');window.scrollTo({ top: 0, behavior: "smooth" })}}>Privacy Policy</Link>
         </Grid>
         <Grid item xs={12}></Grid>
         <Grid item xs={'auto'} alignItems='center' display='flex'>
           <img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>
-          <Link href="https://discord.gg/invite/346ZthxCe8" color={'tertiary.main'}>Join us on Discord</Link>
+          <Link href="https://discord.gg/invite/346ZthxCe8" color={'secondary.main'}>Join us on Discord</Link>
         </Grid>
         <Grid item xs={'auto'}>|</Grid>
         <Grid item xs={'auto'} alignItems='center' display='flex'>
           <img src="/icons/patreon-icon.png" width={'24px'} height={'24px'} style={{margin: '5px'}}/>
-          <Link href="https://www.patreon.com/warframehub" color={'tertiary.main'}>Support us on Patreon</Link>
+          <Link href="https://www.patreon.com/warframehub" color={'secondary.main'}>Support us on Patreon</Link>
         </Grid>
         <Grid item xs={12}></Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>

@@ -41,7 +41,7 @@ class Profile extends React.Component {
     return (
       <Grid container direction={'row'} padding="20px" spacing={1} justifyContent='space-around'> 
         {
-          this.state.loadingProfile ? <Grid item xs='auto'><CircularProgress color='tertiary'/></Grid> : 
+          this.state.loadingProfile ? <Grid item xs='auto'><CircularProgress color='secondary'/></Grid> : 
           <React.Fragment>
             <Grid item xs={12} key='1' display='flex' justifyContent={'center'}>
               <Typography variant='h4'>{this.state.statistics.user.ingame_name}'s Profile</Typography>

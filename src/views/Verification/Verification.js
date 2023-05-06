@@ -105,13 +105,13 @@ class Verification extends Component {
                     action={this.action}
                     ContentProps={{
                       sx: {
-                        background: theme.palette.tertiary.main,
+                        background: theme.palette.secondary.main,
                         color: 'white',
                         fontSize: '16px'
                       }
                     }}
                 />
-                <Dialog onClose={this.closeInstructionDialog} open={this.state.instructionDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+                <Dialog onClose={this.closeInstructionDialog} open={this.state.instructionDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: 'primary.dark' } }}>
                     <Grid container>
                         <Grid item xs={12}>
                                 {`Please follow these steps to verify your Warframe account:
@@ -139,7 +139,7 @@ class Verification extends Component {
                 <Dialog onClose={() => this.setState({updatedIgn: false})} open={this.state.updatedIgn} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
                     <Typography>Your IGN has been updated to {this.props.user?.ingame_name}</Typography>
                 </Dialog>
-                <Dialog onClose={this.closeVerifyDialog} open={this.state.verifyDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px' } }}>
+                <Dialog onClose={this.closeVerifyDialog} open={this.state.verifyDialogOpen} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: 'secondary.main' } }}>
                     <Grid container rowSpacing={'20px'}>
                         <Grid item xs={12}>
                             <Typography variant='h5'>Please verify your Warframe username in order to join/create squads</Typography>

@@ -85,10 +85,10 @@ class CreateSquad extends React.Component {
                 <DialogContentText>
                     Type below name of the new squad(s) seperated by new line
                 </DialogContentText>
-                <TextField color='tertiary' fullWidth style={{marginTop: '20px'}} placeholder={`aya farm\nlith v2`} multiline minRows={3} maxRows={5} label="Squad Name" value={this.state.squadName} onChange={(e) => this.setState({squadName: e.target.value})}/>
+                <TextField color='secondary' fullWidth style={{marginTop: '20px'}} placeholder={`aya farm\nlith v2`} multiline minRows={3} maxRows={5} label="Squad Name" value={this.state.squadName} onChange={(e) => this.setState({squadName: e.target.value})}/>
             </DialogContent>
             <DialogActions style={{justifyContent: 'start', marginLeft: '15px'}}>
-                <Button color='tertiary' variant='contained' onClick={() => this.createNewSquad()}>{this.state.loading ? <CircularProgress style={{color: 'white'}} size={"20px"}/> : 'Create'}</Button>
+                <Button color='secondary' variant='contained' onClick={() => this.createNewSquad()}>{this.state.loading ? <CircularProgress style={{color: 'white'}} size={"20px"}/> : 'Create'}</Button>
             </DialogActions>
         </Dialog>
     );

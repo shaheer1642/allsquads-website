@@ -114,11 +114,11 @@ class ChatChannelMessages extends React.Component {
           <Grid item xs={12}>
             <Grid container spacing={1}>
             {
-              this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress color="tertiary"/></Grid> :
+              this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress color='secondary'/></Grid> :
               <React.Fragment>
-                <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>
+                <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>
                 <Grid item xs={12} key='squad-host'>
-                  {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : 
+                  {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.dark}}>{squad_host}</pre> : 
                     <ApiButton  disabled={this.props.squad.status != 'opened' ? true : false} color='secondary' variant='outlined' onClick={this.onBecomeHostClick} label="Become Host"/>
                   }
                 </Grid>
@@ -138,7 +138,7 @@ class ChatChannelMessages extends React.Component {
             <TextField 
               fullWidth
               size="small"
-              color='tertiary'
+              color='secondary'
               disabled={this.props.squad.status != 'opened' ? true : false} 
               placeholder={this.props.squad.status != 'opened' ? 'Squad has been closed' : 'Type new message'}  
               value={this.state.newMessage}  
@@ -149,7 +149,7 @@ class ChatChannelMessages extends React.Component {
               />
           </Grid>
           <Grid item xs={2}>
-            <Button color='tertiary' onClick={() => this.sendNewMessage()}><Send /></Button>
+            <Button color='secondary' onClick={() => this.sendNewMessage()}><Send /></Button>
           </Grid>
           
         </Grid>

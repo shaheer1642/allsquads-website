@@ -26,7 +26,7 @@ class PrivacyPolicy extends React.Component {
         <React.Fragment>
             {text.replace(/\r\n/g,'\n').split('\n').map(line => {
                 if (line.startsWith('##') && line.endsWith('##'))
-                  return <Typography variant='h5' color='tertiary.main'>{`${headCounter++}. ${line.replace(/#/g,'')}`}</Typography>
+                  return <Typography variant='h5' color='secondary.main'>{`${headCounter++}. ${line.replace(/#/g,'')}`}</Typography>
                 else 
                   return <Typography>{line || '\u200b'}</Typography>
             })}

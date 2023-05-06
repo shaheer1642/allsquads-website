@@ -50,7 +50,7 @@ class SquadCard extends React.Component {
           ':hover': {
             boxShadow: 10, // theme.shadows[20]
           },
-        }} elevation={3} style={{padding: '10px', backgroundColor: theme.palette.background.default, minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.tertiary.main}` : '' }}>
+        }} elevation={3} sx={{padding: '10px', backgroundColor: 'primary.dark', minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.secondary.main}` : '' }}>
           <CardContent> 
             <Grid container  direction={"row"} width={"100%"} justifyContent='start'>
               {/* Squad title */}
