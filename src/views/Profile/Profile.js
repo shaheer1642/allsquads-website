@@ -39,31 +39,29 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <Grid container direction={'row'} padding="10px" rowSpacing={"20px"} columnSpacing={"20px"} justifyContent='space-around'> 
+      <Grid container direction={'row'} padding="20px" spacing={1} justifyContent='space-around'> 
         {
           this.state.loadingProfile ? <Grid item xs='auto'><CircularProgress color='tertiary'/></Grid> : 
           <React.Fragment>
-            
-            <Grid item xs={'auto'}>
-              <Grid item xs='auto'>
-                <Typography variant='h4'>{this.state.statistics.user.ingame_name}'s Profile</Typography>
+            <Grid item xs={12} key='1' display='flex' justifyContent={'center'}>
+              <Typography variant='h4'>{this.state.statistics.user.ingame_name}'s Profile</Typography>
+            </Grid>
+
+            <Grid item xs='auto' key='3'>
+              <Grid container direction='column'>
+                <Grid item xs='auto'>
+                  <Typography variant='h4'>Current RP</Typography>
+                </Grid>
+                <Grid item xs='auto'>
+                  <Typography variant='h6'>{`${this.state.statistics.account_balance}`}</Typography>
+                </Grid>
               </Grid>
             </Grid>
 
-            <Grid item xs={12}></Grid>
-
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='4'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
-                <Typography variant='h4'>Current RP</Typography>
-              </Grid>
-              <Grid item xs='auto'>
-                <Typography variant='h6'>{`${this.state.statistics.account_balance}`}</Typography>
-              </Grid>
-            </Grid>
-
-            <Grid item xs='auto'>
-              <Grid item xs='auto'>
-                <Typography variant='h4'>Squads Rating {`(${this.state.statistics.ratings.rating})`}</Typography>
+                <Typography variant='h4'>Squads Rating {`(${this.state.statistics.ratings.rating || 0})`}</Typography>
               </Grid>
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`${this.state.statistics.ratings[3]} Excellent`}</Typography>
@@ -74,9 +72,11 @@ class Profile extends React.Component {
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`${this.state.statistics.ratings[1]} Horrible`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='5'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Giveaways</Typography>
               </Grid>
@@ -86,29 +86,35 @@ class Profile extends React.Component {
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`${this.state.statistics.giveaways.won} Won`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='6'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Blessings</Typography>
               </Grid>
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`${this.state.statistics.blessings.hosted} Hosted`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='7'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Daywave Challenges</Typography>
               </Grid>
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`${this.state.statistics.challenges.total_completed} Completed`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs={12}></Grid>
+            <Grid item xs={12} key='8'></Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='9'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Top Squads</Typography>
               </Grid>
@@ -119,9 +125,11 @@ class Profile extends React.Component {
                     </Grid>
                   )
               )}
+              </Grid>
             </Grid>
             
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='10'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Total Squads</Typography>
               </Grid>
@@ -137,9 +145,11 @@ class Profile extends React.Component {
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`Today: ${this.state.statistics.squads.total_squads.today}`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='11'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Relic Squads</Typography>
               </Grid>
@@ -155,9 +165,11 @@ class Profile extends React.Component {
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`Today: ${this.state.statistics.squads.total_relic_squads.today}`}</Typography>
               </Grid>
+              </Grid>
             </Grid>
 
-            <Grid item xs='auto'>
+            <Grid item xs='auto' key='12'>
+              <Grid container direction='column'>
               <Grid item xs='auto'>
                 <Typography variant='h4'>Reputation Gain</Typography>
               </Grid>
@@ -178,6 +190,7 @@ class Profile extends React.Component {
               </Grid>
               <Grid item xs='auto'>
                 <Typography variant='h6'>{`User ratings: +${this.state.statistics.reputation.user_ratings}`}</Typography>
+              </Grid>
               </Grid>
             </Grid>
             

@@ -9,6 +9,7 @@ import { getCookie } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
 import { relicBotSquadToString } from '../../functions';
 import theme from '../../theme';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class ChatChannel extends React.Component {
   constructor(props) {

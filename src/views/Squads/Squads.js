@@ -40,7 +40,9 @@ class Squads extends React.Component {
 
   componentDidMount() {
     console.log('[Squads] mounted')
-    this.fetchSquads()
+    socketHasConnected().then(() => {
+      this.fetchSquads()
+    })
     // refresh squads every 2m
     setInterval(() => {
       this.fetchSquads()
@@ -127,9 +129,9 @@ class Squads extends React.Component {
                 squadsLoading: false,
                 squadsRefreshing: false
               })
-            }
+            } else console.log(res1)
           })
-        }
+        } else console.log(res1)
       })
     })
   }

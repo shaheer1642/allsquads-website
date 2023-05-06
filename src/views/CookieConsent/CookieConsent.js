@@ -7,6 +7,7 @@ import { convertUpper } from '../../functions';
 import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import eventHandler from '../../event_handler/eventHandler';
 import { getCookie, putCookie } from '../../cookie_handler';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class CookieConsent extends React.Component {
   constructor(props) {

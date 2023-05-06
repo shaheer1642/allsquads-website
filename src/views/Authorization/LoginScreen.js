@@ -93,7 +93,7 @@ class LoginScreen extends React.Component {
 
   render() {
     return (
-      <Dialog onClose={this.closeLogin} open={this.state.open} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: 'primary.dark' } }}>
+      <Dialog onClose={this.closeLogin} open={this.props.user? false : this.state.open} sx={{ '& .MuiDialog-paper': { padding: '20px', backgroundColor: 'primary.dark' } }}>
         {this.state.type == 'login' ? 
           <Grid container rowSpacing={'20px'}>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
@@ -143,12 +143,6 @@ class LoginScreen extends React.Component {
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Button color='tertiary' variant='contained' onClick={this.SignupSubmit}>{this.state.callingApi ? <CircularProgress/> : 'Signup'}</Button>
-              </Grid>
-              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Typography>OR</Typography>
-              </Grid>
-              <Grid item xs={12} display={'flex'} justifyContent={'center'}>
-                <Button color='tertiary' variant='outlined' href={login_url} startIcon={<img src="/icons/discord-icon.png" width={'32px'} height={'32px'} style={{margin: '5px'}}/>}>Login Via Discord</Button>
               </Grid>
               <Grid item xs={12} display={'flex'} justifyContent={'center'}>
                 <Link style={{ cursor: 'pointer' }} color='tertiary.main' onClick={() => this.setState({type: 'login'})}>Already have an account? Log in</Link>

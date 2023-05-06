@@ -67,8 +67,11 @@ class Settings extends React.Component {
   render() {
     const PanelAlertsAndSounds = (
       <React.Fragment>
-        <Grid item xs={12}>
+        <Grid item xs={'auto'}>
           <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={config.play_sounds.new_message} onChange={(e) => updateConfig.play_sounds.new_message(e.target.checked, () => this.forceUpdate())}/>} label="New Message" />
+        </Grid>
+        <Grid item xs={'auto'}>
+          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={config.play_sounds.squad_open} disabled />} label="Squad Open" />
         </Grid>
       </React.Fragment>
     )
@@ -88,8 +91,7 @@ class Settings extends React.Component {
         <Grid item xs={'auto'}>
           {this.props.user?.password ? <></> : <TextField color='tertiary' label='Confirm password' onChange={(e) => this.setState({confirm_password: e.target.value})} value={this.state.confirm_password}/>}
         </Grid>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={'auto'}>
+        <Grid item xs={12}>
           <Button 
             disabled = {this.props.user?.discord_id ? true : false} 
             color='tertiary' variant='outlined' 
@@ -99,17 +101,19 @@ class Settings extends React.Component {
               redirect_uri: process.env.REACT_APP_SOCKET_URL+'api/allsquads/authorization/discordOAuth2',
               response_type: 'code',
               scope:'identify email guilds',
-              state: `${getCookie('login_token')}_${process.env.REACT_APP_SERVER_ADDRESS}settings_true`
+              state: `${process.env.REACT_APP_SERVER_ADDRESS}settings_true`
           }).toString()}
           >
             {this.props.user?.discord_id ? `Connected as ${this.props.user?.discord_profile?.username}#${this.props.user?.discord_profile?.discriminator}` : `Link Discord Account`}
           </Button>
         </Grid>
-        <Grid item xs={12}>
-          <Button color='tertiary' variant='contained' onClick={() => this.updateEmailPassword()}>
-            {this.state?.callingApi ? <CircularProgress /> : 'Save Changes'}
-          </Button>
-        </Grid>
+        {!this.props.user?.email ?
+          <Grid item xs={12}>
+            <Button color='tertiary' variant='contained' onClick={() => this.updateEmailPassword()}>
+              {this.state?.callingApi ? <CircularProgress /> : 'Save Changes'}
+            </Button>
+          </Grid>:<></>
+        }
       </React.Fragment>
     )
     

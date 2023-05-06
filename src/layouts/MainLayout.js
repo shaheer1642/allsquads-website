@@ -90,7 +90,7 @@ class MainLayout extends React.Component {
                   Logged in as {this.props.user.ingame_name}
                 </Typography>
               :
-              <Button color="inherit" onClick={() => eventHandler.emit('requestLogin')}>Login</Button>
+              <Button color="primary" variant='contained' onClick={() => eventHandler.emit('requestLogin')}>Login</Button>
               }
               {this.props.user? <Button color="inherit" onClick={() => this.props.navigate('settings')}><Settings /></Button> : <></>}
               
@@ -113,9 +113,6 @@ class MainLayout extends React.Component {
           }}>
           <Chat />
         </Fab>
-        {/* <div style={{marginLeft: '10px', alignSelf: 'end'}}>
-          Sound Effects from <a href="https://pixabay.com/">Pixabay</a>
-        </div> */}
         <CookieConsent />
         <Verification/>
       </Grid>

@@ -14,6 +14,7 @@ import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
 import ApiButton from '../../components/ApiButton';
 import playSound from '../../sound_player';
+import { withHooksHOC } from '../../withHooksHOC';
 
 function enquote(username) {
   return username.match(' ') ? `"${username}"`:username
@@ -69,6 +70,7 @@ class ChatChannelMessages extends React.Component {
   }
 
   sendNewMessage = () => {
+    if (!this.state.newMessage) return
     socket.emit(`${this.props.squad.bot_type}/squads/messageCreate`, {
       message_id: uuid.v4(),
       squad_id: this.props.squad.squad_id, 
@@ -108,30 +110,35 @@ class ChatChannelMessages extends React.Component {
     const squad_host = this.props.squad.squad_host ? `${as_users_list[this.props.squad.squad_host]?.ingame_name} is hosting this squad\n- Please invite everyone, and make sure the squad is set to "invite-only"\n- Only the host should initiate the mission\n- If host migrates, same rules apply` : ''
     console.log('squad host',squad_host,this.props.squad.squad_host)
     return (
-        <Grid container rowSpacing={"10px"} style={{display: 'flex', alignItems: 'end', }}>
-          {
-            this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress color="tertiary"/></Grid> :
-            [
-              <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>,
-              <Grid item xs={12} key='squad-host'>
-                {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : 
-                  <ApiButton color='secondary' variant='outlined' onClick={this.onBecomeHostClick} label="Become Host"/>
-                }
-              </Grid>,
-              this.state.chatsArr.map((chat,index) => 
-                (<Grid item xs={12} key={`squad-message-${index}`} style={{wordWrap: 'break-word'}}>
-                  {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.user_id]?.ingame_name}: ${chat.message}`}
-                </Grid>)
-              ),
-              <Grid item xs={12} key='squad-status'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid>
-            ]
-            
-          }
-          <Grid item xs={12}></Grid>
+        <Grid container rowSpacing={"10px"}>
+          <Grid item xs={12}>
+            <Grid container spacing={1}>
+            {
+              this.state.loadingChats ? <Grid item xs={12} style={{display:'flex', justifyContent:'center'}}><CircularProgress color="tertiary"/></Grid> :
+              <React.Fragment>
+                <Grid item xs={12} key='squad-fill-message'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.background.paper}}>{`Squad Filled\n\n${host_selection}\n\n${invite_list}\n\nStart chatting with your teammates below`}</pre></Grid>
+                <Grid item xs={12} key='squad-host'>
+                  {this.props.squad.squad_host ? <pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: theme.palette.secondary.main}}>{squad_host}</pre> : 
+                    <ApiButton  disabled={this.props.squad.status != 'opened' ? true : false} color='secondary' variant='outlined' onClick={this.onBecomeHostClick} label="Become Host"/>
+                  }
+                </Grid>
+                <Grid item xs={12} key='squad-messages' >
+                  {this.state.chatsArr.map((chat,index) => 
+                    (<Grid item xs={12} key={`squad-message-${index}`} style={{wordWrap: 'break-word'}}>
+                      {`${getTimestamp(Number(chat.creation_timestamp))} ${as_users_list[chat.user_id]?.ingame_name}: ${chat.message}`}
+                    </Grid>)
+                  )}
+                </Grid>
+                {squad_status_message ? <Grid item xs={12} key='squad-status'><pre style={{overflowX: 'auto', whiteSpace: 'pre-line', wordWrap: 'break-word', color: Colors.orange[900]}}>{squad_status_message}</pre></Grid> : <></>}
+                </React.Fragment>
+            } 
+            </Grid>
+          </Grid>
           <Grid item xs={10}>
             <TextField 
               fullWidth
               size="small"
+              color='tertiary'
               disabled={this.props.squad.status != 'opened' ? true : false} 
               placeholder={this.props.squad.status != 'opened' ? 'Squad has been closed' : 'Type new message'}  
               value={this.state.newMessage}  
@@ -142,7 +149,7 @@ class ChatChannelMessages extends React.Component {
               />
           </Grid>
           <Grid item xs={2}>
-            <Button color='secondary' onClick={() => this.sendNewMessage()}><Send /></Button>
+            <Button color='tertiary' onClick={() => this.sendNewMessage()}><Send /></Button>
           </Grid>
           
         </Grid>

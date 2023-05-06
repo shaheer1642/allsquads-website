@@ -57,13 +57,19 @@ class MainFooter extends React.Component {
         </Grid>
         <Grid item xs={12}></Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>
-          <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
+          <Typography sx={{wordWrap: 'break-word'}} color='secondary.dark'>
             DISCLAIMER: Digital Extremes and Warframe are registered trademarks. This website has no direct affiliation with Digital Extremes. All recognizable artwork is intellectual property of these trademarks.
           </Typography>
         </Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>
           <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
             {`Special thanks to the following members for helping development of this project: ${this.special_thanks_members.sort().join(', ')}`}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} justifyContent='center' display={'flex'}>
+          <Typography sx={{wordWrap: 'break-word'}} color='primary.light'>
+            {`Sound effects are taken from `}
+            <Link href="https://pixabay.com/" target='_blank' color='primary.light'>Pixaby</Link>
           </Typography>
         </Grid>
         <Grid item xs={12} justifyContent='center' display={'flex'}>

@@ -20,8 +20,11 @@ export const messaging = getMessaging(firebaseApp);
 export const fetchToken = async (callback) => {
   return getToken(messaging, {vapidKey: process.env.REACT_APP_FIREBASE_FCM_VAPIDKEY}).then((currentToken) => {
     if (currentToken) {
-      console.log('[Firebase FCM] Current token for client:', currentToken);
-      socket.emit('allsquads/fcm/token/update', {login_token: getCookie('login_token'), fcm_token: currentToken})
+      // console.log('[Firebase FCM] Current token for client:', currentToken);
+      // console.log('[FCM] login_token',getCookie('login_token'))
+      socket.emit('allsquads/fcm/token/update', {login_token: getCookie('login_token'), fcm_token: currentToken}, (res) => {
+        if (res.code != 200) console.log('[FCM] error',res)
+      })
       callback(true);
     } else {
       console.log('[Firebase FCM] No registration token available. Request permission to generate one.');

@@ -3,6 +3,7 @@ import React from 'react';
 import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button, Drawer, Grid, Typography, CircularProgress} from '@mui/material';
 import {socket,socketHasConnected} from '../websocket/socket'
 import eventHandler from '../event_handler/eventHandler';
+import { withHooksHOC } from '../withHooksHOC';
 
 class ApiButton extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class ApiButton extends React.Component {
     return (
         <Button 
             style={this.props.style}
-            disabled={this.state.callingApi ? true : false}
+            disabled={this.props.disabled || this.state.callingApi ? true : false}
             variant={this.props.variant}
             color={this.props.color}
             startIcon={this.state.callingApi ? null : this.props.startIcon}
@@ -46,4 +47,5 @@ class ApiButton extends React.Component {
   }
 }
 
-export default ApiButton;
+
+export default withHooksHOC(ApiButton);

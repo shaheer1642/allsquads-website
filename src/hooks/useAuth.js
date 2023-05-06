@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { getCookie } from '../cookie_handler';
+import { getCookie, putCookie } from '../cookie_handler';
 import eventHandler from '../event_handler/eventHandler';
 import { AuthContext } from '../context/AuthContext';
 
@@ -30,6 +30,7 @@ export const useAuth = () => {
         setUser(null, () => {
             eventHandler.emit('user/logout')
             if (callback) callback()
+            putCookie('login_token','')
         })
     };
 

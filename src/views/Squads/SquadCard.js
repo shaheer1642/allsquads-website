@@ -13,6 +13,7 @@ import * as Colors from '@mui/material/colors';
 import theme from '../../theme';
 import ApiButton from '../../components/ApiButton';
 import { getImageFromSquadString } from '../../image_handler';
+import { withHooksHOC } from '../../withHooksHOC';
 
 class SquadCard extends React.Component {
   constructor(props) {

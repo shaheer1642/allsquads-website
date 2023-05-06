@@ -60,7 +60,7 @@ class Chats extends React.Component {
   newSquadOpenedListener = (data) => {
     if (data.members.includes(this.props.user?.user_id)) {
       this.fetchFilledSquads(() => {
-        playSound.newMessage()
+        playSound.squadOpen()
         this.openChat({squad: data})
       })
     }
@@ -128,7 +128,7 @@ class Chats extends React.Component {
           {
             this.state.viewChat != null ?
             <Grid item xs={"auto"}>
-              <Button color='secondary' onClick={() => this.setState({viewChat: null})}><ArrowBack /></Button>
+              <Button color='tertiary' onClick={() => this.setState({viewChat: null})}><ArrowBack /></Button>
             </Grid> : <></>
           }
           <Grid item xs={this.state.viewChat == null ? 12 : 'auto'} width="100%" style={{display: 'flex', justifyContent: 'center'}}>
@@ -143,8 +143,10 @@ class Chats extends React.Component {
                   <ChatChannel squad={squad} onClick={() => this.setState({viewChat: squad.squad_id})}/>
                 </Grid>)
               )
-            :
+            : 
+            <Grid item xs={12} maxHeight={'100%'}>
               <ChatChannelMessages squad={this.state.filledSquads.filter(squad => squad.squad_id == this.state.viewChat)?.[0]} />
+            </Grid>
           }
         </Grid>
       </Drawer>
