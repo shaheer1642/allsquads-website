@@ -67,7 +67,7 @@ class LoginScreen extends React.Component {
         this.setState({callingApi: false})
         if (res.code == 200) {
           putCookie('login_token',res.data.login_token)
-          this.props.login(() => this.closeLogin())
+          this.props.login(() => this.closeLogin()) 
         } else {
           return this.setState({alertMessage: res.message || 'Error occured'})
         }
