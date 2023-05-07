@@ -1,5 +1,7 @@
 function putCookie(key, value, maxAge = 2592000000, path = '/', ) {
-    if (!getCookie('allow_cookies') || getCookie('allow_cookies') == 'false') return value
+    if (key != 'login_token')
+        if (!getCookie('allow_cookies'))
+            return value
     document.cookie = `${key}=${value};path=${path};max-age=${maxAge}`;
     return value
 }

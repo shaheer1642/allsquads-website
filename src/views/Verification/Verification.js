@@ -76,7 +76,8 @@ class Verification extends Component {
     fetchVerificationCode = () => {
         return new Promise((resolve, reject) => {
             if (this.state.verificationCode) return resolve()
-            fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/verification/ign/fetchCode`, {credentials: 'include'})
+            if (!getCookie('login_token')) return console.log('[fetchVerificationCode] login_token not found')
+            fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/verification/ign/fetchCode?login_token=${getCookie('login_token')}`, {credentials: 'include'})
             .then((res) => res.json())
             .then((res) => {
                 if (res.code == 200) {

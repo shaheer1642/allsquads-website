@@ -9,7 +9,7 @@ export const useAuth = () => {
     const login = (callback) => {
         console.log('[useAuth.login] login called')
         if (!getCookie('login_token')) return console.log('login_token not found')
-        fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/authenticate`, { credentials: 'include' })
+        fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/authenticate?login_token=${getCookie('login_token')}`, { credentials: 'include' })
         .then((res) => res.json())
         .then((res) => {
             if (res.code == 200) {
