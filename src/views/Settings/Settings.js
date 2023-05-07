@@ -44,8 +44,6 @@ class Settings extends React.Component {
     // }
   }
 
-
-
   updateEmailPassword = () => {
     if (!this.state.email || !this.state.password || !this.state.confirm_password) return this.setState({alertMessage: 'Fields cannot be empty'})
     if (!isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})

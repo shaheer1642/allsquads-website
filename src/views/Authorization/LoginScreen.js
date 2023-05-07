@@ -5,6 +5,7 @@ import {socket,socketHasConnected} from '../../websocket/socket'
 import { convertUpper, isEmailValid } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
 import { withHooksHOC } from '../../withHooksHOC';
+import { putCookie } from '../../cookie_handler';
 
 const login_url = 'https://discord.com/api/oauth2/authorize?' + new URLSearchParams({
     client_id: process.env.REACT_APP_ENVIRONMENT == 'dev' ? '878017655028723803' : '832682369831141417',
@@ -65,6 +66,7 @@ class LoginScreen extends React.Component {
     .then((res) => {
         this.setState({callingApi: false})
         if (res.code == 200) {
+          putCookie('login_token',res.data.login_token)
           this.props.login(() => this.closeLogin())
         } else {
           return this.setState({alertMessage: res.message || 'Error occured'})
@@ -83,6 +85,7 @@ class LoginScreen extends React.Component {
         this.setState({callingApi: false})
         console.log(res)
         if (res.code == 200) {
+          putCookie('login_token',res.data.login_token)
           this.props.login()
         } else {
           return this.setState({alertMessage: res.message || 'Error occured'})

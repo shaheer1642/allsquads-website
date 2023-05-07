@@ -15,6 +15,7 @@ import CookieConsent from '../views/CookieConsent/CookieConsent';
 import MainFooter from './MainFooter';
 import Verification from '../views/Verification/Verification';
 import { useAuth } from '../hooks/useAuth';
+import { putCookie } from '../cookie_handler';
 
 class MainLayout extends React.Component {
   constructor(props) {
@@ -31,6 +32,21 @@ class MainLayout extends React.Component {
     eventHandler.addListener('user/logout', this.handleLogout)
 
     socket.addEventListener('allsquads/users/update', this.updateUserContext)
+
+    if (this.props.searchParams.has('login_token')) {
+        const login_token = this.props.searchParams.get('login_token');
+        if (login_token) {
+            putCookie('login_token',login_token)
+            // console.log('navigating')
+            // setTimeout(() => {
+            //   this.props.navigate('') 
+            // }, 1000);
+            this.props.login()
+            setTimeout(() => {
+              this.props.setSearchParams(this.props.searchParams.delete('login_token'))
+            }, 1000);
+        }
+    }
   }
 
   componentWillUnmount() {

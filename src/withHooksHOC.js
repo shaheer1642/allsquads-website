@@ -1,5 +1,5 @@
 import React from 'react';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import { AuthContext } from './context/AuthContext';
 
@@ -7,15 +7,16 @@ export const withHooksHOC = (Component) => {
   function ComponentwithHooksHOCProp(props) {
     let location = useLocation();
     let navigate = useNavigate();
-    let params = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const {login, logout} = useAuth()
     const { user } = React.useContext(AuthContext)
 
 
     return <Component {...props} {...{
       location, 
-      navigate, 
-      params, 
+      navigate: navigate, 
+      searchParams: searchParams, 
+      setSearchParams: setSearchParams,
       login: login, 
       logout: logout, 
       user: user
