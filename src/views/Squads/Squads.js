@@ -22,12 +22,19 @@ class Squads extends React.Component {
       squadsArr: [],
       createSquadOpen: false,
 
-      showMembers: false,
-      lithSquads: true,
-      mesoSquads: true,
-      neoSquads: true,
-      axiSquads: true,
-      otherSquads: true,
+      filters: {
+        showMembers: false,
+        lithSquads: true,
+        mesoSquads: true,
+        neoSquads: true,
+        axiSquads: true,
+        otherSquads: true,
+        joinedSquads: true,
+        nonJoinedSquads: true,
+        needsOneMore: true,
+        needsTwoMore: true,
+        needsThreeMore: true,
+      }
     };
     this.fetchSquad = {
       timeSinceLastCall: new Date().getTime(),
@@ -156,45 +163,89 @@ class Squads extends React.Component {
   }
 
   filterSquads = (squad) => {
-    if (squad.squad_string.match('lith'))
-      if (this.state.lithSquads) return true
-      else return false
-    if (squad.squad_string.match('meso'))
-      if (this.state.mesoSquads) return true
-      else return false
-    if (squad.squad_string.match('neo'))
-      if (this.state.neoSquads) return true
-      else return false
-    if (squad.squad_string.match('axi'))
-      if (this.state.axiSquads) return true
-      else return false
-    if (this.state.otherSquads) return true
-    else return false
+    if (!this.state.filters.lithSquads && squad.squad_string.match(/^lith /)) return false
+    if (!this.state.filters.mesoSquads && squad.squad_string.match(/^meso /)) return false
+    if (!this.state.filters.neoSquads && squad.squad_string.match(/^neo /)) return false
+    if (!this.state.filters.axiSquads && squad.squad_string.match(/^axi /)) return false
+    if (!this.state.filters.otherSquads && !squad.squad_string.match(/^lith /) && !squad.squad_string.match(/^meso /) && !squad.squad_string.match(/^neo /) && !squad.squad_string.match(/^axi /)) return false
+    if (!this.state.filters.nonJoinedSquads && !squad.members.includes(this.props.user?.user_id)) return false
+    if (!this.state.filters.joinedSquads && squad.members.includes(this.props.user?.user_id)) return false
+    if (!this.state.filters.needsOneMore && squad.members.length == (squad.spots - 1)) return false
+    if (!this.state.filters.needsTwoMore && squad.members.length == (squad.spots - 2)) return false
+    if (!this.state.filters.needsThreeMore && squad.members.length == (squad.spots - 3)) return false
+    return true
+  }
+
+  updateFilters = (key,value) => {
+    this.setState(state => {
+      const filters = state.filters
+      filters[key] = value
+      return {
+        filters
+      }
+    })
   }
 
   render() {
     return (
       <Grid container spacing={1} style={{padding: '10px'}}>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.showMembers} onChange={(e) => this.setState({showMembers: e.target.checked})}/>} label="Show Members" />
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={12}>
+              <Typography variant='h5'>Filters</Typography>
+            </Grid>
+            <Grid item xs={12} sx={{paddingLeft: 2}}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.lithSquads} onChange={(e) => this.updateFilters('lithSquads',e.target.checked)}/>} label="Lith Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.mesoSquads} onChange={(e) => this.updateFilters('mesoSquads',e.target.checked)}/>} label="Meso Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.neoSquads} onChange={(e) => this.updateFilters('neoSquads',e.target.checked)}/>} label="Neo Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.axiSquads} onChange={(e) => this.updateFilters('axiSquads',e.target.checked)}/>} label="Axi Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.otherSquads} onChange={(e) => this.updateFilters('otherSquads',e.target.checked)}/>} label="Other Squads" />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.joinedSquads} onChange={(e) => this.updateFilters('joinedSquads', e.target.checked)}/>} label="Joined Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.nonJoinedSquads} onChange={(e) => this.updateFilters('nonJoinedSquads', e.target.checked)}/>} label="Non-Joined Squads" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.needsOneMore} onChange={(e) => this.updateFilters('needsOneMore', e.target.checked)}/>} label="Needs 1 more" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.needsTwoMore} onChange={(e) => this.updateFilters('needsTwoMore', e.target.checked)}/>} label="Needs 2 more" />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.needsThreeMore} onChange={(e) => this.updateFilters('needsThreeMore', e.target.checked)}/>} label="Needs 3 more" />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={"auto"}>
+                      <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.filters.showMembers} onChange={(e) => this.updateFilters('showMembers',e.target.checked)}/>} label="Show Members" />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={12}></Grid>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.lithSquads} onChange={(e) => this.setState({lithSquads: e.target.checked})}/>} label="Lith Squads" />
-        </Grid>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.mesoSquads} onChange={(e) => this.setState({mesoSquads: e.target.checked})}/>} label="Meso Squads" />
-        </Grid>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.neoSquads} onChange={(e) => this.setState({neoSquads: e.target.checked})}/>} label="Neo Squads" />
-        </Grid>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.axiSquads} onChange={(e) => this.setState({axiSquads: e.target.checked})}/>} label="Axi Squads" />
-        </Grid>
-        <Grid item xs={"auto"}>
-          <FormControlLabel style={{userSelect: 'none'}} control={<Checkbox color='secondary' checked={this.state.otherSquads} onChange={(e) => this.setState({otherSquads: e.target.checked})}/>} label="Other Squads" />
-        </Grid>
-        <Grid item xs={12}></Grid>
+
         {/* <Grid item xs={"auto"} style={{alignItems: 'center', display: 'flex', color:'red'}}>
           <Typography sx={{wordWrap: 'break-word'}}>
           Caution! The website is for testing only. Please do not open any squads from here as there is no chat system at the moment
@@ -235,7 +286,7 @@ class Squads extends React.Component {
           this.state.squadsArr.filter(this.filterSquads).map((squad,index) => {
             return (
               <Grid item xs={"auto"} key={index}>
-                <SquadCard squad={squad} showMembers={this.state.showMembers} disableActions={false}/>
+                <SquadCard squad={squad} showMembers={this.state.filters.showMembers} disableActions={false}/>
               </Grid>
             )
           })
