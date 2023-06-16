@@ -83,7 +83,7 @@ class Squads extends React.Component {
     }
     this.setState((prevState) => {
       return {
-        squadsArr: [newSquad.bot_type == 'relicbot' ? {...newSquad, squad_string: relicBotSquadToString(newSquad,true)} : newSquad, ...prevState.squadsArr].sort(dynamicSort('squad_string'))
+        squadsArr: [newSquad.bot_type == 'relicbot' ? {...newSquad, squad_string: relicBotSquadToString(newSquad,true)} : newSquad, ...prevState.squadsArr]
       }
     })
   }
@@ -103,7 +103,7 @@ class Squads extends React.Component {
         const squadsArr = prevState.squadsArr.map((squad, index) => {
           if (squad.squad_id === updatedSquad.squad_id) return updatedSquad.bot_type == 'relicbot' ? {...updatedSquad, squad_string: relicBotSquadToString(updatedSquad,true)} : updatedSquad;
           else return squad
-        }).sort(dynamicSort('squad_string'));
+        });
         return {
           squadsArr,
         }
@@ -136,11 +136,11 @@ class Squads extends React.Component {
             // console.log('[Squads.fetchSquads] response2',res2.code)
             if (res2.code == 200) {
               this.setState({
-                squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data].sort(dynamicSort('squad_string')),
+                squadsArr: [...res1.data.map(squad => ({...squad, squad_string: relicBotSquadToString(squad,true)})), ...res2.data],
                 squadsLoading: false,
                 squadsRefreshing: false
               })
-            } else console.log(res1)
+            } else console.log(res2)
           })
         } else console.log(res1)
       })
@@ -283,7 +283,7 @@ class Squads extends React.Component {
         </Grid>
         <Grid item xs={12}></Grid>
         {this.state.squadsLoading ? <Grid item xs={12}><CircularProgress color='secondary'/></Grid>:
-          this.state.squadsArr.filter(this.filterSquads).map((squad,index) => {
+          this.state.squadsArr.filter(this.filterSquads).sort(dynamicSort('squad_string')).sort((a,b) => a.bot_type == 'squadbot' && b.bot_type != 'squadbot' ? -1 :  0 ).map((squad,index) => {
             return (
               <Grid item xs={"auto"} key={index}>
                 <SquadCard squad={squad} showMembers={this.state.filters.showMembers} disableActions={false}/>
