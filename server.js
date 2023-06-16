@@ -14,17 +14,17 @@ app.get('/donatesofty',(req,res) => {
 app.use((req,res,next) => {
   if (req.subdomains.length > 0) {
     if (req.subdomains[0] == 'relic')
-      return res.redirect('https://discord.com/invite/brRTmrEeQv')  // erb server 
+      return res.redirect('https://discord.com/invite/Kyf6NAuEsa')  // discord server 
     else if (req.subdomains[0] == 'relics')
-      return res.redirect('https://discord.com/invite/brRTmrEeQv')  // erb server 
+      return res.redirect('https://discord.com/invite/Kyf6NAuEsa')  // discord server 
     else if (req.subdomains[0] == 'discord')
-      return res.redirect('https://discord.com/invite/brRTmrEeQv')  // erb server 
+      return res.redirect('https://discord.com/invite/Kyf6NAuEsa')  // discord server 
     else if (req.subdomains[0] == 'www')
-      return res.redirect('https://discord.com/invite/Kyf6NAuEsa')  // allsquads server
+      return next() // website
     else if (req.subdomains[0] == 'dev')
-      return next()
+      return next() // website
   } else {
-    return res.redirect('https://discord.com/invite/Kyf6NAuEsa')  // allsquads server
+    return next() // website
   }
 })
 
