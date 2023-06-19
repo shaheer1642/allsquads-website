@@ -15,7 +15,7 @@ class Profile extends React.Component {
       statistics: {},
       loadingProfile: true,
     }
-    this.username = this.props.params.username
+    this.username = this.props.searchParams.get('username')
   }
 
   componentDidMount() {
