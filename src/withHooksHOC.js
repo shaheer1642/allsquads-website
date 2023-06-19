@@ -7,6 +7,7 @@ export const withHooksHOC = (Component) => {
   function ComponentwithHooksHOCProp(props) {
     let location = useLocation();
     let navigate = useNavigate();
+    let params = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const {login, logout} = useAuth()
     const { user } = React.useContext(AuthContext)
@@ -15,6 +16,7 @@ export const withHooksHOC = (Component) => {
     return <Component {...props} {...{
       location, 
       navigate: navigate, 
+      params: params,
       searchParams: searchParams, 
       setSearchParams: setSearchParams,
       login: login, 
