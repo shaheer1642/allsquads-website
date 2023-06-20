@@ -5,7 +5,7 @@ import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Bu
 import {Send} from '@mui/icons-material'
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { convertUpper, sortCaseInsensitive } from '../../functions';
-import {as_users_list, usersLoaded} from '../../objects/as_users_list';
+import {as_users_list} from '../../objects/as_users_list';
 import { getCookie, } from '../../functions';
 import eventHandler from '../../event_handler/eventHandler';
 // import { this.props.user, authorizationCompleted } from '../../objects/user_login';

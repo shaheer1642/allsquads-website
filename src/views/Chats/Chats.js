@@ -82,7 +82,8 @@ class Chats extends React.Component {
     }
   }
 
-  fetchFilledSquads = (callback) => {
+  fetchFilledSquads = async (callback) => {
+    await usersLoaded()
     if (!this.props.user) return this.setState({filledSquads: [], loadingSquads: false})
     socket.emit('allsquads/user/filledSquads/fetch', {user_id: this.props.user.user_id},(res) => {
       if (res.code == 200) {

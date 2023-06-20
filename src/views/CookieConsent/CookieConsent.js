@@ -4,7 +4,6 @@ import { Link, Outlet } from "react-router-dom";
 import {Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText, Button} from '@mui/material';
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { convertUpper } from '../../functions';
-import {as_users_list, usersLoaded} from '../../objects/as_users_list';
 import eventHandler from '../../event_handler/eventHandler';
 import { getCookie, putCookie } from '../../cookie_handler';
 import { withHooksHOC } from '../../withHooksHOC';

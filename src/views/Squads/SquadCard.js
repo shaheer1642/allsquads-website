@@ -6,7 +6,7 @@ import {DoneOutlined, CancelOutlined} from '@mui/icons-material'
 import {socket,socketHasConnected} from '../../websocket/socket'
 import { relicBotSquadToString } from '../../functions';
 import { convertUpper } from '../../functions';
-import {as_users_list, usersLoaded} from '../../objects/as_users_list';
+import {as_users_list} from '../../objects/as_users_list';
 // import { this.props.user } from '../../objects/user_login';
 import eventHandler from '../../event_handler/eventHandler';
 import * as Colors from '@mui/material/colors';
@@ -19,18 +19,12 @@ class SquadCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      usersListLoading: true,
       showMembers: false
     }
   }
 
   componentDidMount() {
     console.log('[SquadCard] mounted')
-    usersLoaded().then(() => {
-        this.setState({
-          usersListLoading: false
-        })
-    }).catch(console.error)
   }
 
   componentWillUnmount() {
@@ -44,13 +38,19 @@ class SquadCard extends React.Component {
   render() {
     return (
         <Card
-        onMouseEnter={() => this.setState({showMembers: true})}
-        onMouseLeave={() => this.setState({showMembers: false})}
-        sx={{
-          ':hover': {
-            boxShadow: 10, // theme.shadows[20]
-          },
-        }} elevation={3} sx={{padding: '10px', backgroundColor: 'primary.dark', minWidth: '15vw', border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.secondary.main}` : '' }}>
+          onMouseEnter={() => this.setState({showMembers: true})}
+          onMouseLeave={() => this.setState({showMembers: false})}
+          sx={{
+            ':hover': {
+              boxShadow: 10, // theme.shadows[20]
+            },
+            padding: '10px', 
+            backgroundColor: 'primary.dark', 
+            minWidth: '15vw', 
+            border: (this.props.squad.members.length >= this.props.squad.spots - 1) ? `2px solid ${theme.palette.secondary.main}` : '' 
+          }} 
+          elevation={3}
+        >
           <CardContent> 
             <Grid container  direction={"row"} width={"100%"} justifyContent='start'>
               {/* Squad title */}

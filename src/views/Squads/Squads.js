@@ -11,6 +11,7 @@ import CreateSquad from './CreateSquad';
 import eventHandler from '../../event_handler/eventHandler';
 import ApiButton from '../../components/ApiButton';
 import { withHooksHOC } from '../../withHooksHOC';
+import { usersLoaded } from '../../objects/as_users_list';
 
 
 class Squads extends React.Component {
@@ -47,7 +48,8 @@ class Squads extends React.Component {
 
   componentDidMount() {
     console.log('[Squads] mounted')
-    socketHasConnected().then(() => {
+    socketHasConnected().then(async () => {
+      await usersLoaded()
       this.fetchSquads()
     })
     // refresh squads every 2m
