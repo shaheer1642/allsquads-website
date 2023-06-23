@@ -40,12 +40,12 @@ class MiniframeGame extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.characters)
+    // console.log(this.state)
   }
 
   characterUpdatedListener = (data) => {
     this.setState(state => ({
-      characters: data.map(char => char.character_id == socket.id ? state.characters.filter(char => char.character_id == socket.id)[0] : char)
+      characters: data.map(char => char.character_id == socket.id ? state.characters.filter(chari => chari.character_id == socket.id)[0] || char : char)
     }))
   }
 
