@@ -13,6 +13,8 @@ import TermsOfService from "./views/MainFooter/TermsOfService";
 import PrivacyPolicy from "./views/MainFooter/PrivacyPolicy";
 import FAQ from "./views/MainFooter/FAQ";
 import { AuthContext } from "./context/AuthContext";
+import MiniframeLayout from "./views/Miniframe/MiniframeLayout";
+import MiniframeGame from "./views/Miniframe/MiniframeGame";
 
 class Router extends React.Component {
   constructor(props) {
@@ -34,6 +36,9 @@ class Router extends React.Component {
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="faq" element={<FAQ />} />
+            </Route>
+            <Route path="/miniframe" element={<MiniframeLayout />}>
+              <Route index element={<MiniframeGame />} />
             </Route>
           </Routes>
         </BrowserRouter>
