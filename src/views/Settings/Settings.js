@@ -49,7 +49,7 @@ class Settings extends React.Component {
     if (!isEmailValid(this.state.email)) return this.setState({alertMessage: 'Please enter a valid email address'})
     if (this.state.password != this.state.confirm_password) return this.setState({alertMessage: 'Passwords mismatch'})
     this.setState({callingApi: true})
-    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/login/email?email=${this.state.email}&password=${this.state.password}&link_account=true`,{credentials: 'include'})
+    fetch(`${process.env.REACT_APP_SOCKET_URL}api/allsquads/authorization/login/email?email=${this.state.email}&password=${this.state.password}&link_account=true&login_token=${getCookie('login_token')}`,{credentials: 'include'})
     .then((res) => res.json())
     .then((res) => {
         this.setState({callingApi: false})
@@ -99,7 +99,7 @@ class Settings extends React.Component {
               redirect_uri: process.env.REACT_APP_SOCKET_URL+'api/allsquads/authorization/discordOAuth2',
               response_type: 'code',
               scope:'identify email guilds',
-              state: `${process.env.REACT_APP_SERVER_ADDRESS}settings_true`
+              state: `${process.env.REACT_APP_SERVER_ADDRESS}settings_true_${getCookie('login_token')}`
           }).toString()}
           >
             {this.props.user?.discord_id ? `Connected as ${this.props.user?.discord_profile?.username}#${this.props.user?.discord_profile?.discriminator}` : `Link Discord Account`}
