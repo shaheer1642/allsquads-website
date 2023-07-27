@@ -6,6 +6,7 @@ Allsquads.com is a Warframe squad matchmaking website that allows players to eas
 - MUI
 - Firebase
 - Express server
+- Socket.io-client
 
 # Screenshots
 ![Untitled](https://github.com/shaheer1642/allsquads-website/assets/90972275/62108275-f5be-46da-ba20-f7a43be98127)
