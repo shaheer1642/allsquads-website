@@ -13,8 +13,6 @@ Allsquads.com is a Warframe squad matchmaking website that allows players to eas
 
 # Running the code
 
-First install the node modules using the command:
-`npm install`
+First install the node modules using the command: `npm install`
 
-Run the website using
-`npm start`
+Run the website using `npm start`
