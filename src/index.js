@@ -15,6 +15,7 @@ import FAQ from "./views/MainFooter/FAQ";
 import { AuthContext } from "./context/AuthContext";
 import MiniframeLayout from "./views/Miniframe/MiniframeLayout";
 import MiniframeGame from "./views/Miniframe/MiniframeGame";
+import AllSquadsReview2023 from "./views/AllSquadsReview/AllSquadsReview2023";
 
 class Router extends React.Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class Router extends React.Component {
 
   render() {
     return (
-      <AuthContext.Provider value={{ user: this.state.user, setUser: (user,callback) => this.setState({user: user}, () => callback ? callback() : null) }}>
+      <AuthContext.Provider value={{ user: this.state.user, setUser: (user, callback) => this.setState({ user: user }, () => callback ? callback() : null) }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<MainLayout />}>
@@ -36,6 +37,7 @@ class Router extends React.Component {
               <Route path="terms-of-service" element={<TermsOfService />} />
               <Route path="privacy-policy" element={<PrivacyPolicy />} />
               <Route path="faq" element={<FAQ />} />
+              <Route path="allsquads-review-2023" element={<AllSquadsReview2023 />} />
             </Route>
             <Route path="/miniframe" element={<MiniframeLayout />}>
               <Route index element={<MiniframeGame />} />
